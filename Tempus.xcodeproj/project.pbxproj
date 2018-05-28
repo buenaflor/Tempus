@@ -7,13 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		251B6589338B92C213696CFA /* Pods_TempusUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E33D2332881B123E2B338F4 /* Pods_TempusUITests.framework */; };
+		3454A3DE20BC96F6003CCEFF /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */; };
+		345A9F0720B602010097DE5C /* BaseViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0620B602010097DE5C /* BaseViews.swift */; };
+		345A9F0920B602450097DE5C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0820B602450097DE5C /* UIColor.swift */; };
+		345A9F0B20B602690097DE5C /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0A20B602690097DE5C /* UIFont.swift */; };
+		345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0C20B606140097DE5C /* IntroductionViewController.swift */; };
+		345A9F1220BAA8F00097DE5C /* CreatePollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */; };
+		345A9F1420BB477B0097DE5C /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1320BB477B0097DE5C /* FirebaseManager.swift */; };
+		345A9F1620BB4FA90097DE5C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1520BB4FA90097DE5C /* Model.swift */; };
+		345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1720BB54450097DE5C /* CodeViewController.swift */; };
+		345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */; };
+		345A9F1C20BB56D30097DE5C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1B20BB56D30097DE5C /* BaseViewController.swift */; };
+		345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1D20BB5E610097DE5C /* PollViewController.swift */; };
+		345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */; };
 		34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C2020B5FC5800945788 /* AppDelegate.swift */; };
-		34F84C2320B5FC5800945788 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C2220B5FC5800945788 /* ViewController.swift */; };
-		34F84C2620B5FC5800945788 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2420B5FC5800945788 /* Main.storyboard */; };
 		34F84C2820B5FC5B00945788 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2720B5FC5B00945788 /* Assets.xcassets */; };
 		34F84C2B20B5FC5B00945788 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */; };
 		34F84C3620B5FC5B00945788 /* TempusTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C3520B5FC5B00945788 /* TempusTests.swift */; };
 		34F84C4120B5FC5B00945788 /* TempusUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C4020B5FC5B00945788 /* TempusUITests.swift */; };
+		34F84C5020B5FDFC00945788 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C4F20B5FDFC00945788 /* LoginViewController.swift */; };
+		34F84C5320B5FE1800945788 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C5220B5FE1800945788 /* UIKit.swift */; };
+		34F84C5520B5FE7D00945788 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C5420B5FE7D00945788 /* GoogleService-Info.plist */; };
+		4DA85D5DD090C9D89E881F85 /* Pods_TempusTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9E304B078A189D7652402D8 /* Pods_TempusTests.framework */; };
+		62A9C7138FF8C7C8EC9C0D6B /* Pods_Tempus.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93E07172A5815D14A268A375 /* Pods_Tempus.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,10 +51,23 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		012A35056162942E1F8C64A2 /* Pods-Tempus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tempus/Pods-Tempus.release.xcconfig"; sourceTree = "<group>"; };
+		1E33D2332881B123E2B338F4 /* Pods_TempusUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TempusUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestViewController.swift; sourceTree = "<group>"; };
+		345A9F0620B602010097DE5C /* BaseViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViews.swift; sourceTree = "<group>"; };
+		345A9F0820B602450097DE5C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
+		345A9F0A20B602690097DE5C /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
+		345A9F0C20B606140097DE5C /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
+		345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePollViewController.swift; sourceTree = "<group>"; };
+		345A9F1320BB477B0097DE5C /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		345A9F1520BB4FA90097DE5C /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		345A9F1720BB54450097DE5C /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
+		345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRoomViewController.swift; sourceTree = "<group>"; };
+		345A9F1B20BB56D30097DE5C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		345A9F1D20BB5E610097DE5C /* PollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollViewController.swift; sourceTree = "<group>"; };
+		345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		34F84C1D20B5FC5800945788 /* Tempus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tempus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34F84C2020B5FC5800945788 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		34F84C2220B5FC5800945788 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		34F84C2520B5FC5800945788 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		34F84C2720B5FC5B00945788 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34F84C2A20B5FC5B00945788 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		34F84C2C20B5FC5B00945788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -47,6 +77,16 @@
 		34F84C3C20B5FC5B00945788 /* TempusUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TempusUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		34F84C4020B5FC5B00945788 /* TempusUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TempusUITests.swift; sourceTree = "<group>"; };
 		34F84C4220B5FC5B00945788 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		34F84C4F20B5FDFC00945788 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		34F84C5220B5FE1800945788 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
+		34F84C5420B5FE7D00945788 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		40D3AF023CB3FF85D403DE35 /* Pods-TempusTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempusTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TempusTests/Pods-TempusTests.debug.xcconfig"; sourceTree = "<group>"; };
+		93E07172A5815D14A268A375 /* Pods_Tempus.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Tempus.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9E304B078A189D7652402D8 /* Pods_TempusTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TempusTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CB3E4A61ABDB88200041EF79 /* Pods-Tempus.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempus.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Tempus/Pods-Tempus.debug.xcconfig"; sourceTree = "<group>"; };
+		E97E2DE6019854CCE28E233F /* Pods-TempusUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempusUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TempusUITests/Pods-TempusUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F2B2BA57721268DDB046342F /* Pods-TempusUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempusUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TempusUITests/Pods-TempusUITests.release.xcconfig"; sourceTree = "<group>"; };
+		FC18F7DB879006C353A27C72 /* Pods-TempusTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TempusTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-TempusTests/Pods-TempusTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				62A9C7138FF8C7C8EC9C0D6B /* Pods_Tempus.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4DA85D5DD090C9D89E881F85 /* Pods_TempusTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,19 +110,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				251B6589338B92C213696CFA /* Pods_TempusUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A557FF9306028AB74AC7ACC /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CB3E4A61ABDB88200041EF79 /* Pods-Tempus.debug.xcconfig */,
+				012A35056162942E1F8C64A2 /* Pods-Tempus.release.xcconfig */,
+				40D3AF023CB3FF85D403DE35 /* Pods-TempusTests.debug.xcconfig */,
+				FC18F7DB879006C353A27C72 /* Pods-TempusTests.release.xcconfig */,
+				E97E2DE6019854CCE28E233F /* Pods-TempusUITests.debug.xcconfig */,
+				F2B2BA57721268DDB046342F /* Pods-TempusUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		345A9F0520B601F90097DE5C /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				345A9F0620B602010097DE5C /* BaseViews.swift */,
+				345A9F1B20BB56D30097DE5C /* BaseViewController.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
 		34F84C1420B5FC5800945788 = {
 			isa = PBXGroup;
 			children = (
 				34F84C1F20B5FC5800945788 /* Tempus */,
+				34F84C5120B5FE1000945788 /* Core */,
 				34F84C3420B5FC5B00945788 /* TempusTests */,
 				34F84C3F20B5FC5B00945788 /* TempusUITests */,
 				34F84C1E20B5FC5800945788 /* Products */,
+				0A557FF9306028AB74AC7ACC /* Pods */,
+				EFF31E4F760C3F128D1B0C63 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,11 +165,11 @@
 		34F84C1F20B5FC5800945788 /* Tempus */ = {
 			isa = PBXGroup;
 			children = (
-				34F84C2020B5FC5800945788 /* AppDelegate.swift */,
-				34F84C2220B5FC5800945788 /* ViewController.swift */,
-				34F84C2420B5FC5800945788 /* Main.storyboard */,
-				34F84C2720B5FC5B00945788 /* Assets.xcassets */,
-				34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */,
+				34F84C5820B5FEBD00945788 /* Supporting Files */,
+				345A9F0520B601F90097DE5C /* Base */,
+				34F84C5620B5FEA300945788 /* Targets */,
+				34F84C5920B5FECB00945788 /* Main */,
+				34F84C4E20B5FDF400945788 /* Verification */,
 				34F84C2C20B5FC5B00945788 /* Info.plist */,
 			);
 			path = Tempus;
@@ -125,6 +193,76 @@
 			path = TempusUITests;
 			sourceTree = "<group>";
 		};
+		34F84C4E20B5FDF400945788 /* Verification */ = {
+			isa = PBXGroup;
+			children = (
+				34F84C4F20B5FDFC00945788 /* LoginViewController.swift */,
+				345A9F0C20B606140097DE5C /* IntroductionViewController.swift */,
+			);
+			path = Verification;
+			sourceTree = "<group>";
+		};
+		34F84C5120B5FE1000945788 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				34F84C5220B5FE1800945788 /* UIKit.swift */,
+				345A9F0820B602450097DE5C /* UIColor.swift */,
+				345A9F0A20B602690097DE5C /* UIFont.swift */,
+				345A9F1320BB477B0097DE5C /* FirebaseManager.swift */,
+				345A9F1520BB4FA90097DE5C /* Model.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		34F84C5620B5FEA300945788 /* Targets */ = {
+			isa = PBXGroup;
+			children = (
+				34F84C5720B5FEAE00945788 /* Tempus Dev */,
+			);
+			path = Targets;
+			sourceTree = "<group>";
+		};
+		34F84C5720B5FEAE00945788 /* Tempus Dev */ = {
+			isa = PBXGroup;
+			children = (
+				34F84C5420B5FE7D00945788 /* GoogleService-Info.plist */,
+			);
+			path = "Tempus Dev";
+			sourceTree = "<group>";
+		};
+		34F84C5820B5FEBD00945788 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				34F84C2020B5FC5800945788 /* AppDelegate.swift */,
+				34F84C2720B5FC5B00945788 /* Assets.xcassets */,
+				34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		34F84C5920B5FECB00945788 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */,
+				345A9F1720BB54450097DE5C /* CodeViewController.swift */,
+				345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */,
+				345A9F1D20BB5E610097DE5C /* PollViewController.swift */,
+				345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */,
+				3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		EFF31E4F760C3F128D1B0C63 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93E07172A5815D14A268A375 /* Pods_Tempus.framework */,
+				C9E304B078A189D7652402D8 /* Pods_TempusTests.framework */,
+				1E33D2332881B123E2B338F4 /* Pods_TempusUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -132,9 +270,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34F84C4520B5FC5B00945788 /* Build configuration list for PBXNativeTarget "Tempus" */;
 			buildPhases = (
+				C58867916FB5795CC7B01DB8 /* [CP] Check Pods Manifest.lock */,
 				34F84C1920B5FC5800945788 /* Sources */,
 				34F84C1A20B5FC5800945788 /* Frameworks */,
 				34F84C1B20B5FC5800945788 /* Resources */,
+				B1D7ECE35A0B36753AE18FE6 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -149,6 +289,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34F84C4820B5FC5B00945788 /* Build configuration list for PBXNativeTarget "TempusTests" */;
 			buildPhases = (
+				AA39C47FB1083090FD0CDA84 /* [CP] Check Pods Manifest.lock */,
 				34F84C2D20B5FC5B00945788 /* Sources */,
 				34F84C2E20B5FC5B00945788 /* Frameworks */,
 				34F84C2F20B5FC5B00945788 /* Resources */,
@@ -167,6 +308,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 34F84C4B20B5FC5B00945788 /* Build configuration list for PBXNativeTarget "TempusUITests" */;
 			buildPhases = (
+				28A8D1580A9CEB687FCA3A2F /* [CP] Check Pods Manifest.lock */,
 				34F84C3820B5FC5B00945788 /* Sources */,
 				34F84C3920B5FC5B00945788 /* Frameworks */,
 				34F84C3A20B5FC5B00945788 /* Resources */,
@@ -230,8 +372,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				34F84C2B20B5FC5B00945788 /* LaunchScreen.storyboard in Resources */,
+				34F84C5520B5FE7D00945788 /* GoogleService-Info.plist in Resources */,
 				34F84C2820B5FC5B00945788 /* Assets.xcassets in Resources */,
-				34F84C2620B5FC5800945788 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,13 +393,122 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		28A8D1580A9CEB687FCA3A2F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TempusUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AA39C47FB1083090FD0CDA84 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TempusTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B1D7ECE35A0B36753AE18FE6 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-Tempus/Pods-Tempus-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/BoringSSL/openssl.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/NVActivityIndicatorView/NVActivityIndicatorView.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC/GRPCClient.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-ProtoRPC/ProtoRPC.framework",
+				"${BUILT_PRODUCTS_DIR}/gRPC-RxLibrary/RxLibrary.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/NVActivityIndicatorView.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GRPCClient.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ProtoRPC.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RxLibrary.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Tempus/Pods-Tempus-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C58867916FB5795CC7B01DB8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Tempus-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		34F84C1920B5FC5800945788 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				34F84C2320B5FC5800945788 /* ViewController.swift in Sources */,
+				345A9F1C20BB56D30097DE5C /* BaseViewController.swift in Sources */,
+				34F84C5020B5FDFC00945788 /* LoginViewController.swift in Sources */,
+				345A9F1220BAA8F00097DE5C /* CreatePollViewController.swift in Sources */,
+				34F84C5320B5FE1800945788 /* UIKit.swift in Sources */,
+				345A9F1420BB477B0097DE5C /* FirebaseManager.swift in Sources */,
+				345A9F0B20B602690097DE5C /* UIFont.swift in Sources */,
+				345A9F1620BB4FA90097DE5C /* Model.swift in Sources */,
+				345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */,
+				345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */,
 				34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */,
+				345A9F0720B602010097DE5C /* BaseViews.swift in Sources */,
+				3454A3DE20BC96F6003CCEFF /* GuestViewController.swift in Sources */,
+				345A9F0920B602450097DE5C /* UIColor.swift in Sources */,
+				345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */,
+				345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */,
+				345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,14 +544,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		34F84C2420B5FC5800945788 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				34F84C2520B5FC5800945788 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -428,14 +671,12 @@
 		};
 		34F84C4620B5FC5B00945788 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3E4A61ABDB88200041EF79 /* Pods-Tempus.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tempus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.Tempus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -445,14 +686,12 @@
 		};
 		34F84C4720B5FC5B00945788 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 012A35056162942E1F8C64A2 /* Pods-Tempus.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tempus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.Tempus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -462,16 +701,13 @@
 		};
 		34F84C4920B5FC5B00945788 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40D3AF023CB3FF85D403DE35 /* Pods-TempusTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -482,16 +718,13 @@
 		};
 		34F84C4A20B5FC5B00945788 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FC18F7DB879006C353A27C72 /* Pods-TempusTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -502,15 +735,12 @@
 		};
 		34F84C4C20B5FC5B00945788 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E97E2DE6019854CCE28E233F /* Pods-TempusUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -521,15 +751,12 @@
 		};
 		34F84C4D20B5FC5B00945788 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F2B2BA57721268DDB046342F /* Pods-TempusUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
