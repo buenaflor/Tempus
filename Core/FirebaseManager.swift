@@ -145,6 +145,7 @@ class FirebaseManager {
         }
     }
     
+    // ToDo
     func updateVote(votes: [Int], completion: @escaping (Error?) -> Void) {
         let roomRef = db.collection(roomCollection)
         roomRef.getDocuments { (querySnapshot, err) in

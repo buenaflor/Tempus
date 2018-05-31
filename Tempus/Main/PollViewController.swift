@@ -224,12 +224,12 @@ class PollCell: UITableViewCell, Configurable {
         voteCountLabel.text = "\(vote)"
     }
     
-    let questionLabel = Label(font: .TempRegular, textAlignment: .left, textColor: UIColor.Temp.mainDarker, numberOfLines: 1)
+    let questionLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     
     let voteCountLabel: Label = {
         let lbl = Label(font: .TempRegular, textAlignment: .center, textColor: .white, numberOfLines: 1)
-        lbl.backgroundColor = UIColor.Temp.mainDarker
-        lbl.layer.cornerRadius = 5
+        lbl.backgroundColor = UIColor.Temp.accent
+        lbl.layer.cornerRadius = 2
         return lbl
     }()
     
@@ -242,18 +242,30 @@ class PollCell: UITableViewCell, Configurable {
     
     let containerView = UIView()
     
+    func disableAlpha() {
+        self.coverView.alpha = 0
+    }
+    
     func showAlpha(_ value: Bool) {
         if value {
             UIView.animate(withDuration: 0.25) {
-                self.coverView.alpha = 0.5
+                self.coverView.alpha = 0.35
             }
         }
         else {
             UIView.animate(withDuration: 0.25) {
                 self.coverView.alpha = 0
+                self.containerView.layer.masksToBounds = true
+                self.containerView.layer.shadowColor = UIColor.black.cgColor
+                self.containerView.layer.shadowOffset = CGSize(width: -1, height: 1)
+                self.containerView.layer.shadowRadius = 1
+                
+                self.containerView.layer.shadowPath = UIBezierPath(rect: self.bounds).cgPath
+                self.containerView.layer.shouldRasterize = true
+                self.containerView.layer.rasterizationScale = UIScreen.main.scale
+            
             }
         }
-        
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
@@ -263,13 +275,13 @@ class PollCell: UITableViewCell, Configurable {
         
         backgroundColor = .clear
         
-        containerView.backgroundColor = UIColor(red: 247/255, green: 246/255, blue: 245/255, alpha: 1)
+        containerView.backgroundColor = UIColor.Temp.mainDarker
         
         add(subview: containerView) { (v, p) in [
-            v.topAnchor.constraint(equalTo: p.topAnchor, constant: 10),
-            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 10),
-            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -10),
-            v.bottomAnchor.constraint(equalTo: p.bottomAnchor, constant: -10)
+            v.topAnchor.constraint(equalTo: p.topAnchor, constant: 1),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 3),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -3),
+            v.bottomAnchor.constraint(equalTo: p.bottomAnchor, constant: -1)
             ]}
         
         containerView.add(subview: voteCountLabel) { (v, p) in [
