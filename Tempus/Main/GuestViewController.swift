@@ -69,7 +69,7 @@ class GuestViewController: BaseViewController {
     
     @objc func createPollBtnTapped() {
         let createPollVC = CreatePollViewController(creator: .guest)
-        present(createPollVC.wrapped(), animated: true, completion: nil)
+        navigationController?.pushViewController(createPollVC, animated: true)
     }
     
     @objc func joinRoomButtonTapped() {

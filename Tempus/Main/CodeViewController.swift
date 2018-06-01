@@ -43,6 +43,7 @@ class CodeViewController: BaseViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.register(PollCell.self)
+        tv.register(ResultCell.self)
         tv.tableFooterView = UIView()
         tv.separatorStyle = .none
         tv.backgroundColor = UIColor.Temp.main
@@ -82,10 +83,13 @@ class CodeViewController: BaseViewController {
     let pickLabel = Label(font: UIFont.TempSemiBold.withSize(22), textAlignment: .center, textColor: .white, numberOfLines: 1)
     let codeLabel = Label(font: UIFont.TempSemiBold.withSize(25), textAlignment: .center, textColor: .white, numberOfLines: 1)
     
+    var voteSum = 0
     var selectedIndex = 0
 
     var keyboardShown = false
     var submitButtonSelected = false
+    var pickedButtonSelected = false
+    var showResults = false
     
     var questions = [String]()
     var votes = [Int]()
@@ -222,32 +226,51 @@ class CodeViewController: BaseViewController {
         }
     }
     
+    func winnerIndex() -> Int {
+        let closest = votes.enumerated().min( by: { abs($0.1 - voteSum) < abs($1.1 - voteSum) } )!
+        return closest.offset
+    }
+    
     @objc func dismissKeyboardOnTap() {
         codeInputTextField.resignFirstResponder()
     }
     
     @objc func submitButtonTapped() {
-        print("tapped")
+        // Set to true to avoid updating bottom view on listener
+        self.pickedButtonSelected = true
         updateVote(index: selectedIndex, votes: votes) { (err) in
             if let err = err {
                 print(err)
             }
             else {
-                print("in here")
+    
                 self.tableView.isUserInteractionEnabled = false
                 
+                self.waitingLabel.text = "Waiting for results..."
+                
+                let sv = UIStackView(arrangedSubviews: [
+                    self.customActivityIndicator,
+                    self.waitingLabel
+                    ])
+                sv.axis = .vertical
+                sv.alpha = 0
+                sv.distribution = .fillEqually
+                
+                self.bottomView.add(subview: sv) { (v, p) in [
+                    v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+                    v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
+                    v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.75),
+                    v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.75)
+                    ]}
+                
                 UIView.animate(withDuration: 0.25, animations: {
-                    self.titleLabel.alpha = 0
-                    self.submitButton.alpha = 0
+                    self.bottomSV.alpha = 0
+                    
+                    self.waitingLabel.alpha = 1
+                    sv.alpha = 1
                 })
                 
-                self.bottomView.add(subview: self.customActivityIndicator) { (v, p) in [
-                    v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
-                    v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
-                    v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1),
-                    v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
-                    ]}
-            
+                self.customActivityIndicator.startAnimating()
                 
                 for index in 0 ... self.questions.count {
                     guard let indexCell = self.tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PollCell else { return }
@@ -269,8 +292,7 @@ class CodeViewController: BaseViewController {
             }
         }
         
-        print("finito")
-        FirebaseManager.shared.updateVote(votes: newArray) { (err) in
+        FirebaseManager.shared.updateVote(votes: newArray, code: "88408") { (err) in
             if let err = err {
                 completion(err)
             }
@@ -319,10 +341,13 @@ class CodeViewController: BaseViewController {
                         print(err)
                     }
                     else {
+                        
                         if let bottomHeightConstraint = self.bottomHeightConstraint, let room = room, let votes = votes {
                             UIView.animate(withDuration: 0.25, animations: {
                                 
-                                if self.bottomView.subviews.contains(self.customActivityIndicator) {
+                                self.voteSum = votes.data.reduce(0) { $0 + $1 }
+                                
+                                if self.bottomView.subviews.contains(self.customActivityIndicator) && !self.pickedButtonSelected {
                                     self.customActivityIndicator.stopAnimating()
                                     self.customActivityIndicator.removeFromSuperview()
                                     bottomHeightConstraint.constant = 0
@@ -331,6 +356,13 @@ class CodeViewController: BaseViewController {
                                 
                                 switch room.state {
                                 case RoomState.open.text:
+                                    
+                                    guard !self.pickedButtonSelected else {
+                                        self.questions = room.questions
+                                        self.votes = votes.data
+                                        self.tableView.reloadData()
+                                        return
+                                    }
                                     
                                     if self.view.subviews.contains(self.tableView) {
                                         UIView.animate(withDuration: 0.25, animations: {
@@ -380,15 +412,23 @@ class CodeViewController: BaseViewController {
                                     self.stateLabel.text = "Poll has not started yet"
                                     
                                 case RoomState.closed.text:
-                                    self.stateLabel.text = "Poll is closed"
-                                    self.stateLabel.alpha = 0
-                                    
+                           
                                     UIView.animate(withDuration: 0.25, animations: {
-                                        self.stateLabel.alpha = 1
+                                        self.waitingLabel.alpha = 0
                                     })
                                     
+                                    self.showResults = true
                                     self.customActivityIndicator.stopAnimating()
+                                    self.tableView.reloadData()
+                                    
                                 case RoomState.started.text:
+                                    
+                                    guard !self.pickedButtonSelected else {
+                                        self.questions = room.questions
+                                        self.votes = votes.data
+                                        self.tableView.reloadData()
+                                        return
+                                    }
                                     
                                     self.customActivityIndicator.removeFromSuperview()
                                     
@@ -435,14 +475,30 @@ class CodeViewController: BaseViewController {
 extension CodeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(PollCell.self, for: indexPath)
+        
         let question = questions[indexPath.row]
         let vote = votes[indexPath.row]
         
-        cell.configureWithModel(question)
-        cell.setVote(vote: vote)
-        
-        return cell
+        if showResults {
+            let cell = tableView.dequeueReusableCell(ResultCell.self, for: indexPath)
+            
+            if indexPath.row == winnerIndex() {
+                cell.setWinner()
+            }
+            
+            cell.configureWithModel(vote, maxCount: voteSum)
+            cell.setQuestion(question)
+            
+            return cell
+        }
+        else {
+            let cell = tableView.dequeueReusableCell(PollCell.self, for: indexPath)
+            
+            cell.configureWithModel(question)
+            cell.setVote(vote: vote)
+            
+            return cell
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -456,18 +512,20 @@ extension CodeViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow()
         
-        let question = questions[indexPath.row]
-        pickLabel.text = "Your pick: \(question)"
-        
-        selectedIndex = indexPath.row
-        
-        for index in 0 ... questions.count {
-            if index != indexPath.row {
-                guard let indexCell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PollCell else { return }
-                indexCell.showAlpha(true)
-            } else {
-                guard let indexCell = tableView.cellForRow(at: indexPath) as? PollCell else { return }
-                indexCell.showAlpha(false)
+        if !showResults {
+            let question = questions[indexPath.row]
+            pickLabel.text = "Your pick: \(question)"
+            
+            selectedIndex = indexPath.row
+            
+            for index in 0 ... questions.count {
+                if index != indexPath.row {
+                    guard let indexCell = tableView.cellForRow(at: IndexPath(row: index, section: 0)) as? PollCell else { return }
+                    indexCell.showAlpha(true)
+                } else {
+                    guard let indexCell = tableView.cellForRow(at: indexPath) as? PollCell else { return }
+                    indexCell.showAlpha(false)
+                }
             }
         }
     }

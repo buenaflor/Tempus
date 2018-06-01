@@ -43,7 +43,7 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
         return iv
     }()
     
-    let infoLabel = Label(font: UIFont.TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
+    let infoLabel = Label(font: UIFont.TempRegular, textAlignment: .center, textColor: .white, numberOfLines: 1)
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
@@ -68,12 +68,13 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
         btn.addTarget(self, action: #selector(createRoomButtonTapped), for: .touchUpInside)
         return btn
     }()
-    
+
     lazy var pollTextField: InputTextField = {
-        let tf = InputTextField(placeHolder: "Enter a poll question")
-        tf.backgroundColor = UIColor.Temp.mainDarker
+        let tf = InputTextField(placeHolder: "")
+        tf.attributedPlaceholder = NSAttributedString.String("Enter a poll question", font: .TempRegular, color: UIColor.lightGray)
         tf.delegate = self
-        tf.layer.cornerRadius = 10
+        tf.backgroundColor = .clear
+        tf.layer.borderColor = UIColor.clear.cgColor
         tf.tintColor = .white
         return tf
     }()
@@ -122,6 +123,8 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
             v.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -10),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
             ]}
+        
+        pollTextField.addSeparatorLine(color: .lightGray)
         
         view.add(subview: tableView) { (v, p) in [
             v.topAnchor.constraint(equalTo: pollTextField.bottomAnchor, constant: 10),
@@ -179,7 +182,7 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
         guard let pollQuestion = pollTextField.text else { return }
         
         if pollQuestion.isEmpty {
-            print("error")
+            self.showAlert(title: "Error", message: "An input is required") { }
         }
         else {
             questions.append(pollQuestion)

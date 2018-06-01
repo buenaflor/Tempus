@@ -96,7 +96,7 @@ class FirebaseManager {
                             completion(err, nil, nil)
                         }
                         else {
-
+                            
                             if let votes = documentSnapShot.flatMap({
                                 $0.data().flatMap({ data in
                                     return Votes(dictionary: data)
@@ -145,19 +145,23 @@ class FirebaseManager {
         }
     }
     
-    // ToDo
-    func updateVote(votes: [Int], completion: @escaping (Error?) -> Void) {
+    
+    func updateVote(votes: [Int], code: String, completion: @escaping (Error?) -> Void) {
         let roomRef = db.collection(roomCollection)
-        roomRef.getDocuments { (querySnapshot, err) in
+        roomRef.whereField(FirebaseConstant.code, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let err = err {
                 completion(err)
             }
             else {
+                
                 if querySnapshot?.documents.count == 1 {
                     let document = querySnapshot?.documents[0]
                     guard let documentID = document?.documentID else { return }
                     
-                    roomRef.document(documentID).collection("votes").document("votes").setData(["data" : votes], completion: { (err) in
+                    roomRef.document(documentID)
+                        .collection(FirebaseConstant.votes)
+                        .document(FirebaseConstant.votes)
+                        .setData([FirebaseConstant.voteData : votes], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -165,6 +169,9 @@ class FirebaseManager {
                             completion(nil)
                         }
                     })
+                }
+                else {
+                    
                 }
             }
         }

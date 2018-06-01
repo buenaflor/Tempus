@@ -21,6 +21,10 @@
 		345A9F1C20BB56D30097DE5C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1B20BB56D30097DE5C /* BaseViewController.swift */; };
 		345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1D20BB5E610097DE5C /* PollViewController.swift */; };
 		345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */; };
+		34AC4A0820C0793C00EE576D /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */; };
+		34AC4A0A20C0843700EE576D /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0920C0843700EE576D /* ResultCell.swift */; };
+		34AC4A0D20C0849100EE576D /* PollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0C20C0849100EE576D /* PollCell.swift */; };
+		34AC4A0F20C0AE6300EE576D /* RoomControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0E20C0AE6300EE576D /* RoomControlViewController.swift */; };
 		34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C2020B5FC5800945788 /* AppDelegate.swift */; };
 		34F84C2820B5FC5B00945788 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2720B5FC5B00945788 /* Assets.xcassets */; };
 		34F84C2B20B5FC5B00945788 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */; };
@@ -66,6 +70,10 @@
 		345A9F1B20BB56D30097DE5C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		345A9F1D20BB5E610097DE5C /* PollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollViewController.swift; sourceTree = "<group>"; };
 		345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
+		34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
+		34AC4A0920C0843700EE576D /* ResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
+		34AC4A0C20C0849100EE576D /* PollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCell.swift; sourceTree = "<group>"; };
+		34AC4A0E20C0AE6300EE576D /* RoomControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomControlViewController.swift; sourceTree = "<group>"; };
 		34F84C1D20B5FC5800945788 /* Tempus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tempus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34F84C2020B5FC5800945788 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34F84C2720B5FC5B00945788 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -139,6 +147,15 @@
 			path = Base;
 			sourceTree = "<group>";
 		};
+		34AC4A0B20C0847600EE576D /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				34AC4A0920C0843700EE576D /* ResultCell.swift */,
+				34AC4A0C20C0849100EE576D /* PollCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
 		34F84C1420B5FC5800945788 = {
 			isa = PBXGroup;
 			children = (
@@ -209,6 +226,7 @@
 				345A9F0820B602450097DE5C /* UIColor.swift */,
 				345A9F0A20B602690097DE5C /* UIFont.swift */,
 				345A9F1320BB477B0097DE5C /* FirebaseManager.swift */,
+				34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */,
 				345A9F1520BB4FA90097DE5C /* Model.swift */,
 			);
 			path = Core;
@@ -243,12 +261,14 @@
 		34F84C5920B5FECB00945788 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				34AC4A0B20C0847600EE576D /* Cells */,
 				345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */,
 				345A9F1720BB54450097DE5C /* CodeViewController.swift */,
 				345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */,
 				345A9F1D20BB5E610097DE5C /* PollViewController.swift */,
 				345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */,
 				3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */,
+				34AC4A0E20C0AE6300EE576D /* RoomControlViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -495,20 +515,24 @@
 			files = (
 				345A9F1C20BB56D30097DE5C /* BaseViewController.swift in Sources */,
 				34F84C5020B5FDFC00945788 /* LoginViewController.swift in Sources */,
+				34AC4A0820C0793C00EE576D /* FirebaseConstants.swift in Sources */,
 				345A9F1220BAA8F00097DE5C /* CreatePollViewController.swift in Sources */,
 				34F84C5320B5FE1800945788 /* UIKit.swift in Sources */,
 				345A9F1420BB477B0097DE5C /* FirebaseManager.swift in Sources */,
 				345A9F0B20B602690097DE5C /* UIFont.swift in Sources */,
 				345A9F1620BB4FA90097DE5C /* Model.swift in Sources */,
+				34AC4A0A20C0843700EE576D /* ResultCell.swift in Sources */,
 				345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */,
 				345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */,
 				34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */,
 				345A9F0720B602010097DE5C /* BaseViews.swift in Sources */,
 				3454A3DE20BC96F6003CCEFF /* GuestViewController.swift in Sources */,
 				345A9F0920B602450097DE5C /* UIColor.swift in Sources */,
+				34AC4A0F20C0AE6300EE576D /* RoomControlViewController.swift in Sources */,
 				345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */,
 				345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */,
 				345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */,
+				34AC4A0D20C0849100EE576D /* PollCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +700,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tempus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.Tempus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -691,7 +718,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = Tempus/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.Tempus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -707,7 +737,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -724,7 +758,11 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -740,7 +778,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -756,7 +798,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = TempusUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.giancarlobuenaflor.TempusUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
