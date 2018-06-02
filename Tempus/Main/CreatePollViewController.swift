@@ -34,24 +34,17 @@ extension RoomState {
     }
 }
 
-class CreatePollViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
-    
-    let logoImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "logo").withRenderingMode(.alwaysTemplate)
-        iv.tintColor = .white
-        return iv
-    }()
+class CreatePollViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     let infoLabel = Label(font: UIFont.TempRegular, textAlignment: .center, textColor: .white, numberOfLines: 1)
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
-        tv.backgroundColor = UIColor.Temp.main
+        tv.backgroundColor = .clear
         tv.separatorStyle = .none
         tv.delegate = self
         tv.dataSource = self
-        tv.register(UITableViewCell.self)
+        tv.register(QuestionCell.self)
         tv.tableFooterView = UIView()
         return tv
     }()
@@ -66,6 +59,7 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
     lazy var createRoomButton: TempusButton = {
         let btn = TempusButton(title: "Create Room", titleColor: .white, backgroundColor: UIColor.Temp.mainDarker, font: UIFont.TempRegular)
         btn.addTarget(self, action: #selector(createRoomButtonTapped), for: .touchUpInside)
+        btn.layer.cornerRadius = 0
         return btn
     }()
 
@@ -98,27 +92,36 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
         
         infoLabel.text = "Create your poll questions"
         
-        view.add(subview: logoImageView) { (v, p) in [
+        let topContainerView = UIView()
+        
+        view.add(subview: topContainerView) { (v, p) in [
             v.topAnchor.constraint(equalTo: p.safeAreaLayoutGuide.topAnchor, constant: 20),
-            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 20),
-            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -20),
-            v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.1)
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
+            v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.4)
             ]}
         
-        view.add(subview: infoLabel) { (v, p) in [
-            v.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 30),
-            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40)
+        topContainerView.add(subview: self.iconImageView) { (v, p) in [
+            v.centerYAnchor.constraint(equalTo: p.centerYAnchor, constant: -25),
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.7),
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.7)
             ]}
+        
+//        view.add(subview: infoLabel) { (v, p) in [
+//            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
+//            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40)
+//            ]}
         
         view.add(subview: addButton) { (v, p) in [
-            v.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10),
+            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1),
             v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
             ]}
         
         view.add(subview: pollTextField) { (v, p) in [
-            v.topAnchor.constraint(equalTo: infoLabel.bottomAnchor, constant: 10),
+            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
             v.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -10),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
@@ -126,17 +129,17 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
         
         pollTextField.addSeparatorLine(color: .lightGray)
         
-        view.add(subview: tableView) { (v, p) in [
-            v.topAnchor.constraint(equalTo: pollTextField.bottomAnchor, constant: 10),
-            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
-            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40),
-            v.bottomAnchor.constraint(equalTo: p.safeAreaLayoutGuide.bottomAnchor, constant: -40)
-            ]}
-        
         view.add(subview: createRoomButton) { (v, p) in [
             v.bottomAnchor.constraint(equalTo: p.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40)
+            ]}
+        
+        view.add(subview: tableView) { (v, p) in [
+            v.topAnchor.constraint(equalTo: pollTextField.bottomAnchor, constant: 10),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40),
+            v.bottomAnchor.constraint(equalTo: createRoomButton.topAnchor, constant: -10)
             ]}
     }
     
@@ -192,9 +195,9 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
+        let cell = tableView.dequeueReusableCell(QuestionCell.self, for: indexPath)
         
-        cell.textLabel?.text = questions[indexPath.row]
+        cell.configureWithModel(questions[indexPath.row])
         
         return cell
     }
@@ -206,5 +209,15 @@ class CreatePollViewController: UIViewController, UITableViewDataSource, UITable
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            questions.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
     }
 }

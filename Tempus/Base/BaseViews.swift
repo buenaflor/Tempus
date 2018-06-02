@@ -85,3 +85,17 @@ class TempusButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+class BaseTableViewCell: UITableViewCell {
+    
+    let containerView = UIView()
+    
+    func addView() {
+        add(subview: containerView) { (v, p) in [
+            v.topAnchor.constraint(equalTo: p.topAnchor, constant: 1),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 3),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -3),
+            v.bottomAnchor.constraint(equalTo: p.bottomAnchor, constant: -1)
+            ]}
+    }
+}
