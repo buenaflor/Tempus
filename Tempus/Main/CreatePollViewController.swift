@@ -159,7 +159,7 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         guard let creator = creator, let title = titleTextField.text else { return }
         
         let uuid = UUID().uuidString
-        let code = String(uuid.prefix(5))
+        let code = String(uuid.prefix(6))
         
         let date = Date()
         DateFormat.shared.dateFormat = date.format
@@ -167,7 +167,7 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         let result = DateFormat.shared.string(from: date)
 
         
-        let roomControlVC = RoomControlViewController(title: title, name: "Guest", date: result)
+        let roomControlVC = RoomControlViewController(title: title, name: "Guest", date: result, code: code)
         navigationController?.pushViewController(roomControlVC, animated: true)
         
         

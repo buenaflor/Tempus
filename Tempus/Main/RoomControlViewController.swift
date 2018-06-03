@@ -14,7 +14,7 @@ class RoomControlViewController: BaseViewController {
     let dateLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     
-    init(title: String, name: String, date: String) {
+    init(title: String, name: String, date: String, code: String) {
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = title
         self.nameLabel.text = "Created by \(name)"
