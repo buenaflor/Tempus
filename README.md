@@ -70,7 +70,7 @@ Using AutoLayout the standard way by activating every constraint is unnecessary 
     }
 ```
 
-With our Extensions in place, we can easily constraint a view like so:
+With our extensions in place, we can easily constraint a view like so:
 
 ```swift
 view.add(subview: customActivityIndicator) { (v, p) in [
@@ -79,4 +79,10 @@ view.add(subview: customActivityIndicator) { (v, p) in [
             v.widthAnchor.constraint(equalTo: createRoomButton.heightAnchor, multiplier: 0.7),
             v.heightAnchor.constraint(equalTo: createRoomButton.heightAnchor, multiplier: 0.7)
             ]}
+```
+
+If you like to see more extensions that I have used, proceed to
+
+```shell
+Tempus/Core/UIKit.swift 
 ```
