@@ -165,28 +165,36 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         DateFormat.shared.dateFormat = date.format
         
         let result = DateFormat.shared.string(from: date)
+        
+        // Add Indicator
+        view.add(subview: customActivityIndicator) { (v, p) in [
+            v.bottomAnchor.constraint(equalTo: p.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.widthAnchor.constraint(equalTo: createRoomButton.heightAnchor, multiplier: 0.7),
+            v.heightAnchor.constraint(equalTo: createRoomButton.heightAnchor, multiplier: 0.7)
+            ]}
+        
+        UIView.animate(withDuration: 0.25) {
+            self.createRoomButton.alpha = 0
+        }
+        
+        if creator == .guest {
 
-        
-        let roomControlVC = RoomControlViewController(title: title, name: "Guest", date: result, code: code)
-        navigationController?.pushViewController(roomControlVC, animated: true)
-        
-        
-        
-//        if creator == .guest {
-//
-//            //            // States: Open, Started, Closed
-//            let currentDate = Date().millisecondsSince1970
-//            let room = Room(creator: "Guest", members: [String](), questions: self.questions, code: code, state: RoomState.open.text, date: currentDate, title: title)
-//
-//            FirebaseManager.shared.addRoom(room: room) { (err) in
-//                if let err = err {
-//                    print("error", err)
-//                }
-//                else {
-//                    print("Added Guest Room")
-//                }
-//            }
-//        }
+            // States: Open, Started, Closed
+            let currentDate = Date().millisecondsSince1970
+            let room = Room(creator: "Guest", members: [String](), questions: self.questions, code: code, state: RoomState.open.text, date: currentDate, title: title)
+
+            FirebaseManager.shared.addRoom(room: room) { (err) in
+                if let err = err {
+                    print("error", err)
+                }
+                else {
+                    self.customActivityIndicator.stopAnimating()
+                    let roomControlVC = RoomControlViewController(title: title, name: "Guest", date: result, code: code)
+                    self.navigationController?.pushViewController(roomControlVC, animated: true)
+                }
+            }
+        }
 //        else {
 //            guard let currentUser = Auth.auth().currentUser, let displayName = currentUser.displayName else { return }
 //
@@ -244,3 +252,8 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
 }
+
+
+
+
+

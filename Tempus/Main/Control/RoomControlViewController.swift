@@ -14,11 +14,38 @@ class RoomControlViewController: BaseViewController {
     let dateLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     
+    var code: String?
+    
     init(title: String, name: String, date: String, code: String) {
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = title
         self.nameLabel.text = "Created by \(name)"
         self.dateLabel.text = date
+        
+        self.loadListener(code: code)
+        
+        // Save code in case creator wants to leave
+        self.code = code
+    }
+    
+    func loadListener(code: String) {
+        FirebaseManager.shared.addRoomListener(code: code) { (err, room, votes) in
+            guard let room = room, let votes = votes else {
+                print(err!)
+                return
+            }
+            
+            switch room.state {
+            case RoomState.open.text:
+                print("room is open")
+            case RoomState.started.text:
+                print("room is starting")
+            case RoomState.closed.text:
+                print("room is closed")
+            default:
+                break;
+            }
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -54,7 +81,18 @@ class RoomControlViewController: BaseViewController {
     @objc func onBackTapped() {
         self.alert(title: "Warning", message: "Leaving the room will close it immediately. Proceed?", cancelable: true) { (_) in
             // Close room
-            self.navigationController?.popViewController(animated: true)
+            
+            guard let code = self.code else { return }
+            
+            FirebaseManager.shared.removeRoom(code: code, completion: { (err) in
+                if let err = err {
+                    print(err)
+                }
+                else {
+                    print("Deleted Room: \(code)")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            })
         }
     }
 }

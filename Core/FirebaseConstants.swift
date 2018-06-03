@@ -9,8 +9,9 @@
 import Foundation
 
 struct FirebaseConstant {
-    static let code = "code"
-    static let votes = "votes"
-    static let voteData = "data"
+    static let Rooms = "rooms"
+    static let Code = "code"
+    static let Votes = "votes"
+    static let VoteData = "data"
     static let Members = "members"
 }

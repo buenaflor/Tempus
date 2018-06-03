@@ -24,6 +24,9 @@ class FirebaseManager {
         db.settings = settings
     }
     
+    
+    // MARK: - Create
+    
     func addRoom(uid: String?=nil, room: Room, completion: @escaping (Error?) -> Void) {
         
         let roomRef = db.collection(roomCollection)
@@ -75,6 +78,8 @@ class FirebaseManager {
         }
     }
     
+    // MARK: - Listen
+    
     func addRoomListener(code: String, completion: @escaping (Error?, Room?, Votes?) -> Void) {
         let codeQuery = db.collection(roomCollection).whereField("code", isEqualTo: code)
         
@@ -116,6 +121,9 @@ class FirebaseManager {
         }
     }
     
+    
+    // MARK: - Listen
+    
     func joinRoom(name: String, code: String, completion: @escaping (Error?) -> Void) {
         let codeQuery = db.collection(roomCollection).whereField("code", isEqualTo: code)
         
@@ -146,9 +154,11 @@ class FirebaseManager {
     }
     
     
+    // MARK: - Update
+    
     func updateVote(votes: [Int], code: String, completion: @escaping (Error?) -> Void) {
         let roomRef = db.collection(roomCollection)
-        roomRef.whereField(FirebaseConstant.code, isEqualTo: code).getDocuments { (querySnapshot, err) in
+        roomRef.whereField(FirebaseConstant.Code, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let err = err {
                 completion(err)
             }
@@ -159,9 +169,9 @@ class FirebaseManager {
                     guard let documentID = document?.documentID else { return }
                     
                     roomRef.document(documentID)
-                        .collection(FirebaseConstant.votes)
-                        .document(FirebaseConstant.votes)
-                        .setData([FirebaseConstant.voteData : votes], completion: { (err) in
+                        .collection(FirebaseConstant.Votes)
+                        .document(FirebaseConstant.Votes)
+                        .setData([FirebaseConstant.VoteData : votes], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -176,6 +186,30 @@ class FirebaseManager {
             }
         }
     }
+    
+    func removeRoom(code: String, completion: @escaping (Error?) -> Void) {
+        db.collection(FirebaseConstant.Rooms).whereField(FirebaseConstant.Code, isEqualTo: code).getDocuments { (querySnapshot, err) in
+            if let querySnapshot = querySnapshot {
+                if querySnapshot.documents.count == 1 {
+                    let document = querySnapshot.documents[0]
+                    self.db.collection(FirebaseConstant.Rooms).document(document.documentID).delete(completion: { (err) in
+                        if let err = err {
+                            completion(err)
+                        }
+                        else {
+                            completion(nil)
+                        }
+                    })
+                }
+            }
+            else {
+                completion(err)
+            }
+        }
+    }
+    
+    
+    // MARK: - Private
     
     private func updateJoinRoomData(documentID: String, name: String, completion: @escaping (Error?) -> Void) {
         db.collection(roomCollection).document(documentID).getDocument { (document, err) in
