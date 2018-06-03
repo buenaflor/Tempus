@@ -69,7 +69,15 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         tf.delegate = self
         tf.backgroundColor = .clear
         tf.layer.borderColor = UIColor.clear.cgColor
-        tf.tintColor = .white
+        return tf
+    }()
+    
+    lazy var titleTextField: InputTextField = {
+        let tf = InputTextField(placeHolder: "")
+        tf.attributedPlaceholder = NSAttributedString.String("Enter a room title", font: .TempRegular, color: UIColor.lightGray)
+        tf.delegate = self
+        tf.backgroundColor = .clear
+        tf.layer.borderColor = UIColor.clear.cgColor
         return tf
     }()
     
@@ -95,7 +103,7 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
         let topContainerView = UIView()
         
         view.add(subview: topContainerView) { (v, p) in [
-            v.topAnchor.constraint(equalTo: p.safeAreaLayoutGuide.topAnchor, constant: 20),
+            v.topAnchor.constraint(equalTo: p.safeAreaLayoutGuide.topAnchor),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor),
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
             v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.4)
@@ -108,25 +116,28 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
             v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.7)
             ]}
         
-//        view.add(subview: infoLabel) { (v, p) in [
-//            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
-//            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40)
-//            ]}
+        view.add(subview: titleTextField) { (v, p) in [
+            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor, constant: -20),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40),
+            v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
+            ]}
         
         view.add(subview: addButton) { (v, p) in [
-            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
+            v.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 40),
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1),
             v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
             ]}
         
         view.add(subview: pollTextField) { (v, p) in [
-            v.topAnchor.constraint(equalTo: topContainerView.bottomAnchor),
+            v.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 40),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
             v.trailingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -10),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
             ]}
         
+        titleTextField.addSeparatorLine(color: .lightGray)
         pollTextField.addSeparatorLine(color: .lightGray)
         
         view.add(subview: createRoomButton) { (v, p) in [
@@ -145,39 +156,51 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
     
     @objc func createRoomButtonTapped() {
         
-        guard let creator = creator else { return }
+        guard let creator = creator, let title = titleTextField.text else { return }
         
         let uuid = UUID().uuidString
         let code = String(uuid.prefix(5))
         
-        if creator == .guest {
-            
-            // States: Open, Started, Closed
-            let room = Room(creator: "Guest", members: [String](), questions: self.questions, code: code, state: RoomState.open.text)
-            
-            FirebaseManager.shared.addRoom(room: room) { (err) in
-                if let err = err {
-                    print("error", err)
-                }
-                else {
-                    print("Added Guest Room")
-                }
-            }
-        }
-        else {
-            guard let currentUser = Auth.auth().currentUser, let displayName = currentUser.displayName else { return }
+        let date = Date()
+        DateFormat.shared.dateFormat = date.format
+        
+        let result = DateFormat.shared.string(from: date)
 
-            let room = Room(creator: displayName, members: [String](), questions: self.questions, code: code, state: RoomState.open.text)
-            
-            FirebaseManager.shared.addRoom(uid: currentUser.uid, room: room) { (err) in
-                if let err = err {
-                    print("error", err)
-                }
-                else {
-                    print("Added LoggedInUser Room")
-                }
-            }
-        }
+        
+        let roomControlVC = RoomControlViewController(title: title, name: "Guest", date: result)
+        navigationController?.pushViewController(roomControlVC, animated: true)
+        
+        
+        
+//        if creator == .guest {
+//
+//            //            // States: Open, Started, Closed
+//            let currentDate = Date().millisecondsSince1970
+//            let room = Room(creator: "Guest", members: [String](), questions: self.questions, code: code, state: RoomState.open.text, date: currentDate, title: title)
+//
+//            FirebaseManager.shared.addRoom(room: room) { (err) in
+//                if let err = err {
+//                    print("error", err)
+//                }
+//                else {
+//                    print("Added Guest Room")
+//                }
+//            }
+//        }
+//        else {
+//            guard let currentUser = Auth.auth().currentUser, let displayName = currentUser.displayName else { return }
+//
+//            let room = Room(creator: displayName, members: [String](), questions: self.questions, code: code, state: RoomState.open.text)
+//
+//            FirebaseManager.shared.addRoom(uid: currentUser.uid, room: room) { (err) in
+//                if let err = err {
+//                    print("error", err)
+//                }
+//                else {
+//                    print("Added LoggedInUser Room")
+//                }
+//            }
+//        }
     }
     
     @objc func addButtonTapped() {

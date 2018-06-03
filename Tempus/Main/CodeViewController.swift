@@ -77,10 +77,10 @@ class CodeViewController: BaseViewController {
     }()
     
     let stepLabel = Label(font: .TempRegular, textAlignment: .center, textColor: .white, numberOfLines: 1)
-    let stateLabel = Label(font: UIFont.TempSemiBold.withSize(22), textAlignment: .center, textColor: .white, numberOfLines: 1)
-    let titleLabel = Label(font: UIFont.TempSemiBold.withSize(22), textAlignment: .left, textColor: .white, numberOfLines: 1)
+    let stateLabel = Label(font: .TempTitle, textAlignment: .center, textColor: .white, numberOfLines: 1)
+    let titleLabel = Label(font: .TempTitle, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let dateLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
-    let pickLabel = Label(font: UIFont.TempSemiBold.withSize(22), textAlignment: .center, textColor: .white, numberOfLines: 1)
+    let pickLabel = Label(font: .TempTitle, textAlignment: .center, textColor: .white, numberOfLines: 1)
     let codeLabel = Label(font: UIFont.TempSemiBold.withSize(25), textAlignment: .center, textColor: .white, numberOfLines: 1)
     
     var voteSum = 0

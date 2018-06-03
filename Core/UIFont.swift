@@ -20,4 +20,7 @@ extension UIFont {
     public class var TempSemiBold: UIFont {
         return UIFont(name: "PingFangTC-Semibold", size: 16) ?? Default.font
     }
+    public class var TempTitle: UIFont {
+        return UIFont(name: "PingFangTC-Semibold", size: 22) ?? Default.font
+    }
 }

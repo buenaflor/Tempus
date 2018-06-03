@@ -20,6 +20,8 @@ struct Room {
     let questions: [String]
     let code: String
     let state: String
+    let date: Int
+    let title: String
     
     var dictionary: [String: Any] {
         return [
@@ -27,7 +29,9 @@ struct Room {
             "members": members,
             "questions": questions,
             "code": code,
-            "state": state
+            "state": state,
+            "date": date,
+            "title": title
         ]
     }
 }
@@ -40,10 +44,12 @@ extension Room: DocumentSerializable {
             let members = dictionary["members"] as? [String],
             let questions = dictionary["questions"] as? [String],
             let code = dictionary["code"] as? String,
-            let state = dictionary["state"] as? String
+            let state = dictionary["state"] as? String,
+            let date = dictionary["date"] as? Int,
+            let title = dictionary["title"] as? String
             else { return nil }
         
-        self.init(creator: creator, members: members, questions: questions, code: code, state: state)
+        self.init(creator: creator, members: members, questions: questions, code: code, state: state, date: date, title: title)
     }
 }
 

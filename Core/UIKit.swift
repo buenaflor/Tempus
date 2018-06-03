@@ -180,11 +180,35 @@ public extension UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
+    public func alert(title: String? = nil, message: String? = nil, cancelable: Bool = false, handler: ((UIAlertAction) -> Void)? = nil) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(.okAction(handler))
+        
+        if cancelable {
+            alertController.addAction(.cancelAction())
+        }
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
     public var topViewController: UIViewController {
         if let overVC = presentedViewController, !overVC.isBeingDismissed {
             return overVC.topViewController
         }
         return self
+    }
+}
+
+
+// MARK: UIAlertAction
+
+extension UIAlertAction {
+    public class func okAction(_ handler: ((_ action: UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        return UIAlertAction(title: "Ok", style: .default, handler: handler)
+    }
+    
+    public class func cancelAction(_ handler: ((_ action: UIAlertAction) -> Void)? = nil) -> UIAlertAction {
+        return UIAlertAction(title: "Cancel", style: .cancel, handler: handler)
     }
 }
 

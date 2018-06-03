@@ -26,6 +26,7 @@
 		34AC4A0D20C0849100EE576D /* PollCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0C20C0849100EE576D /* PollCell.swift */; };
 		34AC4A0F20C0AE6300EE576D /* RoomControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0E20C0AE6300EE576D /* RoomControlViewController.swift */; };
 		34E16D2920C1F64B00AFD785 /* QuestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E16D2820C1F64B00AFD785 /* QuestionCell.swift */; };
+		34E16D7220C358F400AFD785 /* Foundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34E16D7120C358F400AFD785 /* Foundation.swift */; };
 		34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F84C2020B5FC5800945788 /* AppDelegate.swift */; };
 		34F84C2820B5FC5B00945788 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2720B5FC5B00945788 /* Assets.xcassets */; };
 		34F84C2B20B5FC5B00945788 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 34F84C2920B5FC5B00945788 /* LaunchScreen.storyboard */; };
@@ -76,6 +77,7 @@
 		34AC4A0C20C0849100EE576D /* PollCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollCell.swift; sourceTree = "<group>"; };
 		34AC4A0E20C0AE6300EE576D /* RoomControlViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomControlViewController.swift; sourceTree = "<group>"; };
 		34E16D2820C1F64B00AFD785 /* QuestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionCell.swift; sourceTree = "<group>"; };
+		34E16D7120C358F400AFD785 /* Foundation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Foundation.swift; sourceTree = "<group>"; };
 		34F84C1D20B5FC5800945788 /* Tempus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tempus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		34F84C2020B5FC5800945788 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		34F84C2720B5FC5B00945788 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				345A9F1320BB477B0097DE5C /* FirebaseManager.swift */,
 				34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */,
 				345A9F1520BB4FA90097DE5C /* Model.swift */,
+				34E16D7120C358F400AFD785 /* Foundation.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -534,6 +537,7 @@
 				345A9F0920B602450097DE5C /* UIColor.swift in Sources */,
 				34AC4A0F20C0AE6300EE576D /* RoomControlViewController.swift in Sources */,
 				345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */,
+				34E16D7220C358F400AFD785 /* Foundation.swift in Sources */,
 				345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */,
 				345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */,
 				34AC4A0D20C0849100EE576D /* PollCell.swift in Sources */,

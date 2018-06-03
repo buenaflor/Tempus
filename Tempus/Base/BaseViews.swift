@@ -55,6 +55,9 @@ class InputTextField: UITextField {
         layer.borderWidth = 1.0
         layer.borderColor = UIColor.lightGray.cgColor
         layer.cornerRadius = 4.0
+        
+        tintColor = .white
+        textColor = .white
     }
     
     override var intrinsicContentSize: CGSize {
