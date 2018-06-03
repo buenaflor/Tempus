@@ -40,7 +40,7 @@ Pods used in this repository are (of current state):
 ## Firebase
 What is Firebase and why do you use it?
 
-Firebase is a platform made by Google that can help you store data, analyse statistics and much more. There are a lot of things you can do with it and for Tempus I am using the NoSQL Firestore database and the Firebase Authentication.
+Firebase is a platform made by Google that can help you store data, analyse statistics and much more. There are a lot of things you can do with it and for Tempus I am using the [NoSQL](https://en.wikipedia.org/wiki/NoSQL) Firestore database and the Firebase Authentication.
 
 If you are interested in Firebase, read more about it [here](https://firebase.google.com/docs/)
 
@@ -52,3 +52,20 @@ Using them is almost the same as using the ActivityIndicators from the standard 
 
 ## AutoLayout Extensions
 
+Using AutoLayout the standard way by activating every constraint is unnecessary and tedious. I have added a few extensions that can help a lot.
+
+```swift
+    /// Adds the selected view to the superview and create constraints through the closure block
+    public func add(subview: UIView, createConstraints: (_ view: UIView, _ parent: UIView) -> ([NSLayoutConstraint])) {
+        addSubview(subview)
+        
+        subview.activate(constraints: createConstraints(subview, self))
+    }
+
+    /// Activates the given constraints
+    public func activate(constraints: [NSLayoutConstraint]) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate(constraints)
+    }
+```
