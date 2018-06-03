@@ -1,5 +1,4 @@
 # Tempus
-Easy Poll Assistant App
 
 NOTE: This is an open-source project aimed towards learning and guidance for Swift Code.
 
@@ -81,8 +80,4 @@ view.add(subview: customActivityIndicator) { (v, p) in [
             ]}
 ```
 
-If you like to see more extensions that I have used, proceed to
-
-```shell
-Tempus/Core/UIKit.swift 
-```
+If you like to see more extensions that I have used, proceed to `Tempus/Core/UIKit.swift`
