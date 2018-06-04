@@ -16,6 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    lazy var loginVC: LoginViewController = {
+        let vc = LoginViewController()
+        return vc
+    }()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
@@ -24,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
         
-        let vc = IntroductionViewController()
-        window?.rootViewController = vc
+        window?.rootViewController = loginVC.wrapped()
 
         UINavigationBar.appearance().barTintColor = UIColor.Temp.main
         UINavigationBar.appearance().isTranslucent = false

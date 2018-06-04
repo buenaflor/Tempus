@@ -14,8 +14,43 @@ class RoomControlViewController: BaseViewController {
     let dateLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     
+    var questions = [String]()
+    var votes = [Int]()
+    
     var code: String?
     
+    var bottomHeightConstraint: NSLayoutConstraint?
+    
+    
+    // MARK: - Views
+    
+    let bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.Temp.mainDarker
+        view.alpha = 1
+        return view
+    }()
+    
+    lazy var startButton: TempusButton = {
+        let btn = TempusButton(title: "Start Poll", titleColor: .white, backgroundColor: UIColor.Temp.accent, font: .TempRegular)
+        btn.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        btn.layer.cornerRadius = 0
+        return btn
+    }()
+    
+    lazy var tableView: UITableView = {
+        let tv = UITableView()
+        tv.delegate = self
+        tv.dataSource = self
+        tv.register(PollCell.self)
+        tv.register(ResultCell.self)
+        tv.tableFooterView = UIView()
+        tv.separatorStyle = .none
+        tv.backgroundColor = UIColor.Temp.main
+        tv.bounces = true
+        return tv
+    }()
+
     init(title: String, name: String, date: String, code: String) {
         super.init(nibName: nil, bundle: nil)
         self.titleLabel.text = title
@@ -35,6 +70,9 @@ class RoomControlViewController: BaseViewController {
                 return
             }
             
+            self.questions = room.questions
+            self.votes = votes.data
+            
             switch room.state {
             case RoomState.open.text:
                 print("room is open")
@@ -45,6 +83,8 @@ class RoomControlViewController: BaseViewController {
             default:
                 break;
             }
+            
+            self.tableView.reloadData()
         }
     }
     
@@ -62,6 +102,10 @@ class RoomControlViewController: BaseViewController {
         
         navigationItem.leftBarButtonItem = backButton
         
+        bottomHeightConstraint = bottomView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
+        
+        guard let bottomHeightConstraint = bottomHeightConstraint else { return }
+        
         view.add(subview: titleLabel) { (v, p) in [
             v.topAnchor.constraint(equalTo: p.safeAreaLayoutGuide.topAnchor, constant: 20),
             v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 25)
@@ -75,6 +119,20 @@ class RoomControlViewController: BaseViewController {
         view.add(subview: dateLabel) { (v, p) in [
             v.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 5),
             v.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor, constant: 10)
+            ]}
+        
+        view.add(subview: bottomView) { (v, p) in [
+            v.bottomAnchor.constraint(equalTo: p.safeAreaLayoutGuide.bottomAnchor),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
+            bottomHeightConstraint
+            ]}
+
+        view.add(subview: tableView) { (v, p) in [
+            v.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 15),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 5),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -5),
+            v.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -10)
             ]}
     }
     
@@ -94,5 +152,27 @@ class RoomControlViewController: BaseViewController {
                 }
             })
         }
+    }
+    
+    @objc func startButtonTapped() {
+        
+    }
+}
+
+extension RoomControlViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(PollCell.self, for: indexPath)
+        let question = questions[indexPath.row]
+        let vote = votes[indexPath.row]
+        
+        cell.configureWithModel(question)
+        cell.setVote(vote: vote)
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return questions.count
     }
 }

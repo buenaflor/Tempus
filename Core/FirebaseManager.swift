@@ -158,7 +158,7 @@ class FirebaseManager {
     
     func updateVote(votes: [Int], code: String, completion: @escaping (Error?) -> Void) {
         let roomRef = db.collection(roomCollection)
-        roomRef.whereField(FirebaseConstant.Code, isEqualTo: code).getDocuments { (querySnapshot, err) in
+        roomRef.whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let err = err {
                 completion(err)
             }
@@ -169,9 +169,9 @@ class FirebaseManager {
                     guard let documentID = document?.documentID else { return }
                     
                     roomRef.document(documentID)
-                        .collection(FirebaseConstant.Votes)
-                        .document(FirebaseConstant.Votes)
-                        .setData([FirebaseConstant.VoteData : votes], completion: { (err) in
+                        .collection(FirebaseConstant.STORE_VOTES)
+                        .document(FirebaseConstant.STORE_VOTES)
+                        .setData([FirebaseConstant.VOTES_KEY_DATA : votes], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -188,11 +188,11 @@ class FirebaseManager {
     }
     
     func removeRoom(code: String, completion: @escaping (Error?) -> Void) {
-        db.collection(FirebaseConstant.Rooms).whereField(FirebaseConstant.Code, isEqualTo: code).getDocuments { (querySnapshot, err) in
+        db.collection(FirebaseConstant.STORE_ROOMS).whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let querySnapshot = querySnapshot {
                 if querySnapshot.documents.count == 1 {
                     let document = querySnapshot.documents[0]
-                    self.db.collection(FirebaseConstant.Rooms).document(document.documentID).delete(completion: { (err) in
+                    self.db.collection(FirebaseConstant.STORE_ROOMS).document(document.documentID).delete(completion: { (err) in
                         if let err = err {
                             completion(err)
                         }

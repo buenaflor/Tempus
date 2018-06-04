@@ -15,10 +15,11 @@ public extension UIView {
     /// Adds the selected view to the superview and create constraints through the closure block
     public func add(subview: UIView, createConstraints: (_ view: UIView, _ parent: UIView) -> ([NSLayoutConstraint])) {
         addSubview(subview)
-        
+
         subview.activate(constraints: createConstraints(subview, self))
     }
     
+    // Pins the given constraints to the view (Not yet used)
     public func createConstraints(for subview: UIView, topAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>, leadingAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>, trailingAnchor: NSLayoutAnchor<NSLayoutXAxisAnchor>, bottomAnchor: NSLayoutAnchor<NSLayoutYAxisAnchor>) {
         self.add(subview: subview) { (v, p) in [
             v.topAnchor.constraint(equalTo: topAnchor),
