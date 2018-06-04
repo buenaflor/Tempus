@@ -18,6 +18,7 @@ class RoomControlViewController: BaseViewController {
     var votes = [Int]()
     
     var code: String?
+    var roomState: RoomState?
     
     var bottomHeightConstraint: NSLayoutConstraint?
     
@@ -75,11 +76,19 @@ class RoomControlViewController: BaseViewController {
             
             switch room.state {
             case RoomState.open.text:
-                print("room is open")
+                self.roomState = .open
+                print("it is open")
+                
             case RoomState.started.text:
-                print("room is starting")
+                self.roomState = .started
+                
+                self.startButton.setTitle("End Poll", for: .normal)
+                print("it is started")
+                
             case RoomState.closed.text:
-                print("room is closed")
+                self.roomState = .closed
+                
+                print("it is closed")
             default:
                 break;
             }
@@ -127,6 +136,12 @@ class RoomControlViewController: BaseViewController {
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
             bottomHeightConstraint
             ]}
+        
+        bottomView.add(subview: startButton) { (v, p) in [
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.7)
+            ]}
 
         view.add(subview: tableView) { (v, p) in [
             v.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 15),
@@ -155,7 +170,24 @@ class RoomControlViewController: BaseViewController {
     }
     
     @objc func startButtonTapped() {
+        guard let code = code, let roomState = roomState else { return }
         
+        switch roomState {
+        case .open:
+            FirebaseManager.shared.updateState(state: RoomState.started.text, code: code) { (err) in
+                if let err = err {
+                    self.alert(error: err)
+                }
+            }
+        case .started:
+            FirebaseManager.shared.updateState(state: RoomState.closed.text, code: code) { (err) in
+                if let err = err {
+                    self.alert(error: err)
+                }
+            }
+        default:
+            break;
+        }
     }
 }
 
@@ -174,5 +206,9 @@ extension RoomControlViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return questions.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70
     }
 }

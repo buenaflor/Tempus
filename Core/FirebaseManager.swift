@@ -29,7 +29,7 @@ class FirebaseManager {
     
     func addRoom(uid: String?=nil, room: Room, completion: @escaping (Error?) -> Void) {
         
-        let roomRef = db.collection(roomCollection)
+        let roomRef = db.collection(FirebaseConstant.STORE_ROOMS)
         
         if let uid = uid {
             roomRef.document(uid).setData(room.dictionary) { (err) in
@@ -42,7 +42,7 @@ class FirebaseManager {
                         voteArray.append(0)
                     })
                     let votes = Votes(data: voteArray)
-                    roomRef.document(uid).collection("votes").document("votes").setData(["data" : votes], completion: { (err) in
+                    roomRef.document(uid).collection(FirebaseConstant.STORE_VOTES).document(FirebaseConstant.STORE_VOTES).setData([FirebaseConstant.VOTES_KEY_DATA : votes], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -65,7 +65,7 @@ class FirebaseManager {
                     room.questions.forEach({ _ in
                         voteArray.append(0)
                     })
-                    guestRef.collection("votes").document("votes").setData(["data" : voteArray], completion: { (err) in
+                    guestRef.collection(FirebaseConstant.STORE_VOTES).document(FirebaseConstant.STORE_VOTES).setData([FirebaseConstant.VOTES_KEY_DATA : voteArray], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -81,7 +81,7 @@ class FirebaseManager {
     // MARK: - Listen
     
     func addRoomListener(code: String, completion: @escaping (Error?, Room?, Votes?) -> Void) {
-        let codeQuery = db.collection(roomCollection).whereField("code", isEqualTo: code)
+        let codeQuery = db.collection(FirebaseConstant.STORE_ROOMS).whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code)
         
         codeQuery.addSnapshotListener { (querySnapshot, err) in
             if let err = err {
@@ -96,7 +96,7 @@ class FirebaseManager {
                         return
                     }
                     
-                    self.db.collection(self.roomCollection).document(documentID).collection("votes").document("votes").addSnapshotListener({ (documentSnapShot, err) in
+                    self.db.collection(FirebaseConstant.STORE_ROOMS).document(documentID).collection(FirebaseConstant.STORE_VOTES).document(FirebaseConstant.STORE_VOTES).addSnapshotListener({ (documentSnapShot, err) in
                         if let err = err {
                             completion(err, nil, nil)
                         }
@@ -125,7 +125,7 @@ class FirebaseManager {
     // MARK: - Listen
     
     func joinRoom(name: String, code: String, completion: @escaping (Error?) -> Void) {
-        let codeQuery = db.collection(roomCollection).whereField("code", isEqualTo: code)
+        let codeQuery = db.collection(FirebaseConstant.STORE_ROOMS).whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code)
         
         codeQuery.getDocuments { (querySnapshot, err) in
             if let err = err {
@@ -157,7 +157,7 @@ class FirebaseManager {
     // MARK: - Update
     
     func updateVote(votes: [Int], code: String, completion: @escaping (Error?) -> Void) {
-        let roomRef = db.collection(roomCollection)
+        let roomRef = db.collection(FirebaseConstant.STORE_ROOMS)
         roomRef.whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let err = err {
                 completion(err)
@@ -187,6 +187,28 @@ class FirebaseManager {
         }
     }
     
+    func updateState(state: String, code: String, completion: @escaping (Error?) -> Void) {
+        let roomRef = db.collection(FirebaseConstant.STORE_ROOMS)
+        roomRef.whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code).getDocuments { (querySnapshot, err) in
+            guard let querySnapshot = querySnapshot else {
+                completion(err!)
+                return
+            }
+            
+            guard querySnapshot.documents.count == 1 else { return }
+            let document = querySnapshot.documents[0]
+            
+            roomRef.document(document.documentID).updateData([FirebaseConstant.ROOMS_KEY_STATE : state], completion: { (err) in
+                if let err = err {
+                    completion(err)
+                }
+                else {
+                    completion(nil)
+                }
+            })
+        }
+    }
+    
     func removeRoom(code: String, completion: @escaping (Error?) -> Void) {
         db.collection(FirebaseConstant.STORE_ROOMS).whereField(FirebaseConstant.ROOMS_KEY_CODE, isEqualTo: code).getDocuments { (querySnapshot, err) in
             if let querySnapshot = querySnapshot {
@@ -209,10 +231,11 @@ class FirebaseManager {
     }
     
     
+    
     // MARK: - Private
     
     private func updateJoinRoomData(documentID: String, name: String, completion: @escaping (Error?) -> Void) {
-        db.collection(roomCollection).document(documentID).getDocument { (document, err) in
+        db.collection(FirebaseConstant.STORE_ROOMS).document(documentID).getDocument { (document, err) in
             if let err = err {
                 completion(err)
             }
@@ -225,7 +248,7 @@ class FirebaseManager {
                     var members = room.members
                     members.append(name)
        
-                    self.db.collection(self.roomCollection).document(documentID).updateData(["members" : members], completion: { (err) in
+                    self.db.collection(FirebaseConstant.STORE_ROOMS).document(documentID).updateData([FirebaseConstant.ROOMS_KEY_MEMBERS : members], completion: { (err) in
                         if let err = err {
                             completion(err)
                         }
@@ -245,8 +268,4 @@ class FirebaseManager {
 extension FirebaseManager {
     
     static let shared = FirebaseManager()
-    
-    var roomCollection: String {
-        return "rooms"
-    }
 }

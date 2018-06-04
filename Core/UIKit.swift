@@ -192,6 +192,18 @@ public extension UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
+    public func alert(error: Error, cancelable: Bool = false, handler: ((UIAlertAction) -> Void)? = nil) {
+        let title = "Error"
+        
+        #if DEBUG
+        let message = (error as NSError).userInfo[NSDebugDescriptionErrorKey] as? String ?? error.localizedDescription
+        #else
+        let message = error.localizedDescription
+        #endif
+        
+        alert(title: title, message: message, cancelable: cancelable, handler: handler)
+    }
+    
     public var topViewController: UIViewController {
         if let overVC = presentedViewController, !overVC.isBeingDismissed {
             return overVC.topViewController
