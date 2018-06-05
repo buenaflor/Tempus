@@ -196,6 +196,7 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
             }
         }
 //        else {
+        //        ToDo: Logged In
 //            guard let currentUser = Auth.auth().currentUser, let displayName = currentUser.displayName else { return }
 //
 //            let room = Room(creator: displayName, members: [String](), questions: self.questions, code: code, state: RoomState.open.text)
@@ -219,6 +220,7 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
             self.showAlert(title: "Error", message: "An input is required") { }
         }
         else {
+            pollTextField.resignFirstResponder()
             questions.append(pollQuestion)
             pollTextField.text = ""
             tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
@@ -238,7 +240,12 @@ class CreatePollViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        view.endEditing(true)
+        if textField == pollTextField {
+            view.endEditing(true)
+        }
+        else {
+            pollTextField.becomeFirstResponder()
+        }
         return true
     }
     

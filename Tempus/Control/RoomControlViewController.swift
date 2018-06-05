@@ -20,6 +20,8 @@ class RoomControlViewController: BaseViewController {
     var code: String?
     var roomState: RoomState?
     
+    var isSelected = false
+    
     var bottomHeightConstraint: NSLayoutConstraint?
     
     
@@ -29,6 +31,25 @@ class RoomControlViewController: BaseViewController {
         let view = UIView()
         view.backgroundColor = UIColor.Temp.mainDarker
         view.alpha = 1
+        return view
+    }()
+    
+    let leftSideContentView: UIView = {
+        let view = UIView()
+        view.alpha = 1
+        return view
+    }()
+    
+    let rightSideContentView: UIView = {
+        let view = UIView()
+        view.alpha = 1
+        return view
+    }()
+    
+    let customIndicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .lightGray
+        view.layer.cornerRadius = 5
         return view
     }()
     
@@ -51,6 +72,18 @@ class RoomControlViewController: BaseViewController {
         tv.bounces = true
         return tv
     }()
+    
+    lazy var sideTableView: RoomControlSideTableView = {
+        let view = RoomControlSideTableView()
+        view.delegate = self
+        return view
+    }()
+
+    var leftSideContentWidthConstraint: NSLayoutConstraint?
+    
+    // For RightSideContentView
+    var leadingSideConstraint: NSLayoutConstraint?
+    var trailingSideConstraint: NSLayoutConstraint?
 
     init(title: String, name: String, date: String, code: String) {
         super.init(nibName: nil, bundle: nil)
@@ -70,6 +103,8 @@ class RoomControlViewController: BaseViewController {
                 print(err!)
                 return
             }
+            
+            self.sideTableView.configureWithModel(room.members)
             
             self.questions = room.questions
             self.votes = votes.data
@@ -112,8 +147,17 @@ class RoomControlViewController: BaseViewController {
         navigationItem.leftBarButtonItem = backButton
         
         bottomHeightConstraint = bottomView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
+        leftSideContentWidthConstraint = leftSideContentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.82)
         
-        guard let bottomHeightConstraint = bottomHeightConstraint else { return }
+        leadingSideConstraint = rightSideContentView.leadingAnchor.constraint(equalTo: customIndicatorView.trailingAnchor)
+        trailingSideConstraint = rightSideContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        
+        guard
+            let bottomHeightConstraint = bottomHeightConstraint,
+            let leftSideContentWidthConstraint = leftSideContentWidthConstraint,
+            let leadingSideConstraint = leadingSideConstraint,
+            let trailingSideConstraint = trailingSideConstraint
+            else { return }
         
         view.add(subview: titleLabel) { (v, p) in [
             v.topAnchor.constraint(equalTo: p.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -142,19 +186,36 @@ class RoomControlViewController: BaseViewController {
             v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
             v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.7)
             ]}
-
-        view.add(subview: tableView) { (v, p) in [
+    
+        view.add(subview: leftSideContentView) { (v, p) in [
             v.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 15),
-            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 5),
-            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -5),
-            v.bottomAnchor.constraint(equalTo: bottomView.topAnchor, constant: -10)
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor),
+            v.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            leftSideContentWidthConstraint
             ]}
+        
+        view.add(subview: customIndicatorView) { (v, p) in [
+            v.centerYAnchor.constraint(equalTo: leftSideContentView.centerYAnchor),
+            v.leadingAnchor.constraint(equalTo: leftSideContentView.trailingAnchor),
+            v.widthAnchor.constraint(equalToConstant: 3),
+            v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.15)
+            ]}
+        
+        view.add(subview: rightSideContentView) { (v, p) in [
+            v.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 15),
+            v.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
+            leadingSideConstraint,
+            trailingSideConstraint
+            ]}
+        
+        rightSideContentView.fillToSuperview(sideTableView)
+        leftSideContentView.fillToSuperview(tableView)
     }
     
     @objc func onBackTapped() {
         self.alert(title: "Warning", message: "Leaving the room will close it immediately. Proceed?", cancelable: true) { (_) in
-            // Close room
             
+            // Close room
             guard let code = self.code else { return }
             
             FirebaseManager.shared.removeRoom(code: code, completion: { (err) in
@@ -174,15 +235,19 @@ class RoomControlViewController: BaseViewController {
         
         switch roomState {
         case .open:
-            FirebaseManager.shared.updateState(state: RoomState.started.text, code: code) { (err) in
-                if let err = err {
-                    self.alert(error: err)
+            self.alert(title: "Poll will be starting", message: "Do you wish to proceed?", cancelable: true) { (_) in
+                FirebaseManager.shared.updateState(state: RoomState.started.text, code: code) { (err) in
+                    if let err = err {
+                        self.alert(error: err)
+                    }
                 }
             }
         case .started:
-            FirebaseManager.shared.updateState(state: RoomState.closed.text, code: code) { (err) in
-                if let err = err {
-                    self.alert(error: err)
+            self.alert(title: "Poll will be closed", message: "Do you wish to proceed?", cancelable: true) { (_) in
+                FirebaseManager.shared.updateState(state: RoomState.closed.text, code: code) { (err) in
+                    if let err = err {
+                        self.alert(error: err)
+                    }
                 }
             }
         default:
@@ -209,6 +274,14 @@ extension RoomControlViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 60
+    }
+}
+
+extension RoomControlViewController: RoomControlSideTableViewDelegate {
+    func didSelect(_ tableView: UITableView, at indexPath: IndexPath, in view: RoomControlSideTableView) {
+        isSelected = !isSelected
+        
+        view.setSelection(isSelected)
     }
 }

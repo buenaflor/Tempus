@@ -8,29 +8,45 @@
 
 import UIKit
 
-class RoomControlSideTableView: UIView, UITableViewDelegate, UITableViewDataSource {
+protocol RoomControlSideTableViewDelegate: class {
+    func didSelect(_ tableView: UITableView, at indexPath: IndexPath, in view: RoomControlSideTableView)
+}
+
+class RoomControlSideTableView: UIView, UITableViewDelegate, UITableViewDataSource, Configurable {
+    
+    weak var delegate: RoomControlSideTableViewDelegate?
     
     lazy var tableView: UITableView = {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.register(UITableViewCell.self)
+        tv.register(MembersCell.self)
         tv.tableFooterView = UIView()
         tv.separatorStyle = .none
+        tv.backgroundColor = UIColor.Temp.main
         return tv
     }()
     
-    private var dataSource: Any? {
-        didSet {
-            guard let dataSource = dataSource as? [String] else { return }
-            
-        }
+    var model: [String]?
+    
+    var isSelected = false
+    
+    func configureWithModel(_ users: [String]) {
+        model = users
+        
+        tableView.reloadData()
     }
     
-    init(dataSource: Any) {
-        super.init(frame: .zero)
+    func setSelection(_ value: Bool) {
+        isSelected = value
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-        self.dataSource = dataSource
+        backgroundColor = UIColor.Temp.main
+        
+        fillToSuperview(tableView)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,20 +54,101 @@ class RoomControlSideTableView: UIView, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let dataSource = dataSource as? [String] else { return 0 }
+        guard let dataSource = model else { return 0 }
         return dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(UITableViewCell.self, for: indexPath)
-        guard let dataSource = dataSource as? [String] else { return cell }
+        let cell = tableView.dequeueReusableCell(MembersCell.self, for: indexPath)
+        guard let dataSource = model else { return cell }
         
-        cell.textLabel?.text = dataSource[indexPath.row]
+        let member = dataSource[indexPath.row]
+        
+        cell.configureWithModel(member)
+        cell.constraintViews(isSelected: isSelected)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 70
+        return 60
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow()
+        
+        delegate?.didSelect(tableView, at: indexPath, in: self)
+    }
+}
+
+class MembersCell: BaseTableViewCell, Configurable {
+    
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        return iv
+    }()
+    
+    let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
+    
+    var model: String?
+    
+    func configureWithModel(_ member: String) {
+        self.model = member
+        
+        nameLabel.text = member
+        profileImageView.image = #imageLiteral(resourceName: "profile_pic")
+    }
+    
+    
+    // MARK: - Constraints
+    
+    var imageYAxis: NSLayoutConstraint?
+    var imageXAxis: NSLayoutConstraint?
+    
+    func constraintViews(isSelected: Bool) {
+        if isSelected {
+            imageYAxis = profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            imageXAxis = profileImageView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 5)
+        }
+        else {
+            imageYAxis = profileImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
+            imageXAxis = profileImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)
+        }
+        
+        guard
+            let imageYAxis = imageYAxis,
+            let imageXAxis = imageXAxis
+            else { return }
+        
+        containerView.add(subview: profileImageView) { (v, p) in [
+            imageXAxis,
+            imageYAxis,
+            v.widthAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.6),
+            v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.6)
+            ]}
+        
+        if isSelected {
+            containerView.add(subview: nameLabel) { (v, p) in [
+                v.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 5),
+                v.centerYAnchor.constraint(equalTo: p.centerYAnchor)
+                ]}
+        }
+        
+        layoutIfNeeded()
+    }
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        selectionStyle = .none
+        backgroundColor = .clear
+        
+        containerView.backgroundColor = UIColor.Temp.mainDarker
+        
+        addView()
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

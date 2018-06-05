@@ -59,7 +59,9 @@ class JoinRoomViewController: BaseViewController, UITextFieldDelegate {
     }
     
     @objc func joinButtonTapped() {
-        FirebaseManager.shared.joinRoom(name: "Testname", code: "7380D") { (err) in
+        guard let codeText = roomTextField.text else { return }
+            
+        FirebaseManager.shared.joinRoom(name: "Testname", code: codeText) { (err) in
             if let err = err {
                 print(err)
             }

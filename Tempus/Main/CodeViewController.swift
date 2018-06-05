@@ -93,6 +93,8 @@ class CodeViewController: BaseViewController {
     
     var questions = [String]()
     var votes = [Int]()
+
+    var code: String?
     
     var bottomHeightConstraint: NSLayoutConstraint?
     var codeTextFieldYAxisConstraint: NSLayoutConstraint?
@@ -238,7 +240,10 @@ class CodeViewController: BaseViewController {
     @objc func submitButtonTapped() {
         // Set to true to avoid updating bottom view on listener
         self.pickedButtonSelected = true
-        updateVote(index: selectedIndex, votes: votes) { (err) in
+        
+        guard let code = code else { return }
+        
+        updateVote(index: selectedIndex, votes: votes, code: code) { (err) in
             if let err = err {
                 print(err)
             }
@@ -280,7 +285,7 @@ class CodeViewController: BaseViewController {
         }
     }
     
-    func updateVote(index: Int, votes: [Int], completion: @escaping (Error?) -> Void ) {
+    func updateVote(index: Int, votes: [Int], code: String, completion: @escaping (Error?) -> Void ) {
         var newArray = [Int]()
         
         for i in 0 ... votes.count - 1 {
@@ -292,7 +297,7 @@ class CodeViewController: BaseViewController {
             }
         }
         
-        FirebaseManager.shared.updateVote(votes: newArray, code: "88408") { (err) in
+        FirebaseManager.shared.updateVote(votes: newArray, code: code) { (err) in
             if let err = err {
                 completion(err)
             }
@@ -330,13 +335,17 @@ class CodeViewController: BaseViewController {
                 v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
                 ]}
         }
+
+        guard let codeText = codeInputTextField.text else { return }
         
-        FirebaseManager.shared.joinRoom(name: "Gino", code: "88408") { (err) in
+        code = codeText
+        
+        FirebaseManager.shared.joinRoom(name: "Gino", code: codeText) { (err) in
             if let err = err {
                 print(err)
             }
             else {
-                FirebaseManager.shared.addRoomListener(code: "88408", completion: { (err, room, votes) in
+                FirebaseManager.shared.addRoomListener(code: codeText, completion: { (err, room, votes) in
                     if let err = err {
                         print(err)
                     }
@@ -451,8 +460,8 @@ class CodeViewController: BaseViewController {
                                     })
                                     
                                     // test data
-                                    self.titleLabel.text = "Favourite Country"
-                                    self.dateLabel.text = "by Gino Buenaflor . 30 May 2018"
+                                    self.titleLabel.text = room.title
+                                    self.dateLabel.text = "by \(room.creator) . 30 May 2018"
                                     
                                     UIView.animate(withDuration: 0.25, animations: {
                                         self.tableView.alpha = 1
@@ -530,4 +539,3 @@ extension CodeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 }
-
