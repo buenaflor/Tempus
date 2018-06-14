@@ -112,6 +112,12 @@ class LoginViewController: BaseFormViewController {
         return view
     }()
     
+    lazy var successCheckmark: UIImageView = {
+        let iv = UIImageView()
+        iv.alpha = 0
+        return iv
+    }()
+    
     private var isSignUpForm = false
     
     private var animatedBottomHeight: NSLayoutConstraint?
@@ -261,6 +267,13 @@ class LoginViewController: BaseFormViewController {
             v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
             animatedBottomHeight
             ]}
+        
+        animatedBottomView.add(subview: successCheckmark) { (v, p) in [
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
+            v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.32),
+            v.widthAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.32)
+            ]}
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -323,17 +336,37 @@ class LoginViewController: BaseFormViewController {
             }
         }
         else {
+            self.successCheckmark.setImage(#imageLiteral(resourceName: "checkmark"), with: .alwaysTemplate, tintColor: .green)
             self.animateBottomView(true)
-//            if !isSignUpForm {
-//                Auth.auth().signIn(withEmail: username, password: password) { (user, error) in
-//                    if let error = error {
-//                        self.showAlert(title: "Error", message: error.localizedDescription, completion: {})
-//                    }
-//                    else {
-//
-//                    }
-//                }
-//            }
+            
+            DispatchQueue.global(qos: .background).async {
+                sleep(2)
+                DispatchQueue.main.async {
+                    self.animateBottomView(false)
+                }
+            }
+            if !isSignUpForm {
+                Auth.auth().signIn(withEmail: username, password: password) { (user, err) in
+                    if let err = err {
+                        self.alert(error: err)
+                    }
+                    else {
+                        self.successCheckmark.setImage(#imageLiteral(resourceName: "checkmark"), with: .alwaysTemplate, tintColor: .green)
+                        self.animateBottomView(true)
+
+                        DispatchQueue.global(qos: .background).async {
+                            sleep(2)
+                            DispatchQueue.main.async {
+                                self.animateBottomView(false, completion: { (_) in
+                                    let homeVC = HomeViewController()
+                                    self.present(homeVC.wrapped(), animated: true, completion: nil)
+                                })
+                                
+                            }
+                        }
+                    }
+                }
+            }
 //            else {
 //                Auth.auth().createUser(withEmail: username, password: password) { (user, err) in
 //                    if let err = err {
@@ -353,7 +386,7 @@ class LoginViewController: BaseFormViewController {
 
 extension LoginViewController {
     
-    func animateBottomView(_ value: Bool) {
+    func animateBottomView(_ value: Bool, completion: ((Bool) -> Void)? = nil) {
         if value {
             animatedBottomHeight?.constant = view.frame.height * 0.15
         }
@@ -361,9 +394,10 @@ extension LoginViewController {
             animatedBottomHeight?.constant = 0
         }
         
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: 0.25, animations: {
+            self.successCheckmark.alpha = value ? 1 : 0
             self.view.layoutIfNeeded()
-        }
+        }, completion: completion)
     }
 }
 
