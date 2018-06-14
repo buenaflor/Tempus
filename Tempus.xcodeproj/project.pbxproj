@@ -7,19 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2411C96B20D3137200CB6FD2 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2411C96A20D3137200CB6FD2 /* HomeViewController.swift */; };
 		251B6589338B92C213696CFA /* Pods_TempusUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E33D2332881B123E2B338F4 /* Pods_TempusUITests.framework */; };
 		3454A3DE20BC96F6003CCEFF /* GuestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */; };
 		345A9F0720B602010097DE5C /* BaseViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0620B602010097DE5C /* BaseViews.swift */; };
 		345A9F0920B602450097DE5C /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0820B602450097DE5C /* UIColor.swift */; };
 		345A9F0B20B602690097DE5C /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0A20B602690097DE5C /* UIFont.swift */; };
-		345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F0C20B606140097DE5C /* IntroductionViewController.swift */; };
 		345A9F1220BAA8F00097DE5C /* CreatePollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */; };
 		345A9F1420BB477B0097DE5C /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1320BB477B0097DE5C /* FirebaseManager.swift */; };
 		345A9F1620BB4FA90097DE5C /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1520BB4FA90097DE5C /* Model.swift */; };
 		345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1720BB54450097DE5C /* CodeViewController.swift */; };
-		345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */; };
 		345A9F1C20BB56D30097DE5C /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1B20BB56D30097DE5C /* BaseViewController.swift */; };
-		345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1D20BB5E610097DE5C /* PollViewController.swift */; };
 		345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */; };
 		34AC4A0820C0793C00EE576D /* FirebaseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */; };
 		34AC4A0A20C0843700EE576D /* ResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34AC4A0920C0843700EE576D /* ResultCell.swift */; };
@@ -60,18 +58,16 @@
 /* Begin PBXFileReference section */
 		012A35056162942E1F8C64A2 /* Pods-Tempus.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Tempus.release.xcconfig"; path = "Pods/Target Support Files/Pods-Tempus/Pods-Tempus.release.xcconfig"; sourceTree = "<group>"; };
 		1E33D2332881B123E2B338F4 /* Pods_TempusUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TempusUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2411C96A20D3137200CB6FD2 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuestViewController.swift; sourceTree = "<group>"; };
 		345A9F0620B602010097DE5C /* BaseViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViews.swift; sourceTree = "<group>"; };
 		345A9F0820B602450097DE5C /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		345A9F0A20B602690097DE5C /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
-		345A9F0C20B606140097DE5C /* IntroductionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroductionViewController.swift; sourceTree = "<group>"; };
 		345A9F1120BAA8F00097DE5C /* CreatePollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePollViewController.swift; sourceTree = "<group>"; };
 		345A9F1320BB477B0097DE5C /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		345A9F1520BB4FA90097DE5C /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		345A9F1720BB54450097DE5C /* CodeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeViewController.swift; sourceTree = "<group>"; };
-		345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinRoomViewController.swift; sourceTree = "<group>"; };
 		345A9F1B20BB56D30097DE5C /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
-		345A9F1D20BB5E610097DE5C /* PollViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollViewController.swift; sourceTree = "<group>"; };
 		345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsViewController.swift; sourceTree = "<group>"; };
 		34AC4A0720C0793C00EE576D /* FirebaseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseConstants.swift; sourceTree = "<group>"; };
 		34AC4A0920C0843700EE576D /* ResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultCell.swift; sourceTree = "<group>"; };
@@ -142,6 +138,14 @@
 				F2B2BA57721268DDB046342F /* Pods-TempusUITests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		2411C96C20D3137500CB6FD2 /* LoggedIn */ = {
+			isa = PBXGroup;
+			children = (
+				2411C96A20D3137200CB6FD2 /* HomeViewController.swift */,
+			);
+			path = LoggedIn;
 			sourceTree = "<group>";
 		};
 		345A9F0520B601F90097DE5C /* Base */ = {
@@ -232,7 +236,6 @@
 			isa = PBXGroup;
 			children = (
 				34F84C4F20B5FDFC00945788 /* LoginViewController.swift */,
-				345A9F0C20B606140097DE5C /* IntroductionViewController.swift */,
 			);
 			path = Verification;
 			sourceTree = "<group>";
@@ -280,10 +283,9 @@
 		34F84C5920B5FECB00945788 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				2411C96C20D3137500CB6FD2 /* LoggedIn */,
 				34AC4A0B20C0847600EE576D /* Cells */,
 				345A9F1720BB54450097DE5C /* CodeViewController.swift */,
-				345A9F1920BB56430097DE5C /* JoinRoomViewController.swift */,
-				345A9F1D20BB5E610097DE5C /* PollViewController.swift */,
 				345A9F1F20BC532A0097DE5C /* ResultsViewController.swift */,
 				3454A3DD20BC96F6003CCEFF /* GuestViewController.swift */,
 			);
@@ -541,17 +543,15 @@
 				345A9F0B20B602690097DE5C /* UIFont.swift in Sources */,
 				345A9F1620BB4FA90097DE5C /* Model.swift in Sources */,
 				34AC4A0A20C0843700EE576D /* ResultCell.swift in Sources */,
-				345A9F1E20BB5E610097DE5C /* PollViewController.swift in Sources */,
+				2411C96B20D3137200CB6FD2 /* HomeViewController.swift in Sources */,
 				345A9F2020BC532A0097DE5C /* ResultsViewController.swift in Sources */,
 				34F84C2120B5FC5800945788 /* AppDelegate.swift in Sources */,
 				345A9F0720B602010097DE5C /* BaseViews.swift in Sources */,
 				3454A3DE20BC96F6003CCEFF /* GuestViewController.swift in Sources */,
 				345A9F0920B602450097DE5C /* UIColor.swift in Sources */,
 				34AC4A0F20C0AE6300EE576D /* RoomControlViewController.swift in Sources */,
-				345A9F0D20B606140097DE5C /* IntroductionViewController.swift in Sources */,
 				34E16D7220C358F400AFD785 /* Foundation.swift in Sources */,
 				345A9F1820BB54450097DE5C /* CodeViewController.swift in Sources */,
-				345A9F1A20BB56430097DE5C /* JoinRoomViewController.swift in Sources */,
 				34AC4A0D20C0849100EE576D /* PollCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

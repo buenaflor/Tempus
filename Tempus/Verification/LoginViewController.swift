@@ -31,7 +31,8 @@ class BaseFormViewController: BaseViewController, UITextFieldDelegate {
     }()
     
     lazy var loginButton: TempusButton = {
-        let btn = TempusButton(title: "Log In", titleColor: .white, backgroundColor: UIColor.Temp.mainDarkComplementary, font: .TempRegular)
+        let btn = TempusButton(title: "Log In", titleColor: .white, backgroundColor: UIColor.Temp.mainDarker, font: .TempRegular)
+        btn.layer.cornerRadius = 0
         return btn
     }()
     
@@ -105,6 +106,16 @@ class LoginViewController: BaseFormViewController {
         return btn
     }()
     
+    let animatedBottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.Temp.mainDarker
+        return view
+    }()
+    
+    private var isSignUpForm = false
+    
+    private var animatedBottomHeight: NSLayoutConstraint?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -128,9 +139,6 @@ class LoginViewController: BaseFormViewController {
         passwordTextField.tintColor = .white
         
         iconImageView.image = #imageLiteral(resourceName: "logo_big")
-        
-        loginButton.layer.cornerRadius = 0
-        loginButton.backgroundColor = UIColor.Temp.mainDarker
         
         let emailContainerView = UIView()
         let passwordContainerView = UIView()
@@ -243,6 +251,16 @@ class LoginViewController: BaseFormViewController {
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.3)
             ]}
         
+        animatedBottomHeight = animatedBottomView.heightAnchor.constraint(equalToConstant: 0)
+        
+        guard let animatedBottomHeight = animatedBottomHeight else { return }
+        
+        view.add(subview: animatedBottomView) { (v, p) in [
+            v.bottomAnchor.constraint(equalTo: p.safeAreaLayoutGuide.bottomAnchor),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor),
+            animatedBottomHeight
+            ]}
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -265,8 +283,16 @@ class LoginViewController: BaseFormViewController {
     }
     
     @objc func registerButtonTapped() {
-//        let registerVC = RegisterViewController()
-//        present(registerVC.wrapped(), animated: true, completion: nil)
+        if !isSignUpForm {
+            loginButton.setTitle("Createvnew account", for: .normal)
+            registerButton.setTitle("Log In", for: .normal)
+        }
+        else {
+            loginButton.setTitle("Log In", for: .normal)
+            registerButton.setTitle("Create new account", for: .normal)
+        }
+        
+        isSignUpForm = !isSignUpForm
     }
     
     @objc func forgotPasswordButtonTapped() {
@@ -297,15 +323,52 @@ class LoginViewController: BaseFormViewController {
             }
         }
         else {
-            Auth.auth().signIn(withEmail: username, password: password) { (user, error) in
-                if let error = error {
-                    self.showAlert(title: "Error", message: error.localizedDescription, completion: {})
-                }
-                else {
-                    
-                }
-            }
+            self.animateBottomView(true)
+//            if !isSignUpForm {
+//                Auth.auth().signIn(withEmail: username, password: password) { (user, error) in
+//                    if let error = error {
+//                        self.showAlert(title: "Error", message: error.localizedDescription, completion: {})
+//                    }
+//                    else {
+//
+//                    }
+//                }
+//            }
+//            else {
+//                Auth.auth().createUser(withEmail: username, password: password) { (user, err) in
+//                    if let err = err {
+//                        self.alert(error: err)
+//                    }
+//                    else {
+//
+//                    }
+//                }
+//            }
         }
     }
 }
+
+
+// MARK: - Animations
+
+extension LoginViewController {
+    
+    func animateBottomView(_ value: Bool) {
+        if value {
+            animatedBottomHeight?.constant = view.frame.height * 0.15
+        }
+        else {
+            animatedBottomHeight?.constant = 0
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+
+
+
+
 

@@ -13,6 +13,7 @@ class RoomControlViewController: BaseViewController {
     let titleLabel = Label(font: .TempTitle, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let dateLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
     let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
+    let roomStateLabel = Label(font: UIFont.TempSemiBold.withSize(22), textAlignment: .center, textColor: .white, numberOfLines: 1)
     
     var questions = [String]()
     var votes = [Int]()
@@ -50,12 +51,28 @@ class RoomControlViewController: BaseViewController {
         let view = UIView()
         view.backgroundColor = .lightGray
         view.layer.cornerRadius = 5
+        view.alpha = 0
         return view
+    }()
+    
+    lazy var closedStackView: UIStackView = {
+        let sv = UIStackView(arrangedSubviews: [ roomStateLabel, closeButton ])
+        sv.axis = .vertical
+        sv.distribution = .fillEqually
+        sv.alpha = 0
+        return sv
     }()
     
     lazy var startButton: TempusButton = {
         let btn = TempusButton(title: "Start Poll", titleColor: .white, backgroundColor: UIColor.Temp.accent, font: .TempRegular)
         btn.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
+        btn.layer.cornerRadius = 0
+        return btn
+    }()
+    
+    lazy var closeButton: TempusButton = {
+        let btn = TempusButton(title: "Leave Room", titleColor: .white, backgroundColor: UIColor.Temp.accent, font: .TempRegular)
+        btn.addTarget(self, action: #selector(onBackTapped), for: .touchUpInside)
         btn.layer.cornerRadius = 0
         return btn
     }()
@@ -78,6 +95,8 @@ class RoomControlViewController: BaseViewController {
         view.delegate = self
         return view
     }()
+    
+    private var roomContainsMembers = false
 
     var leftSideContentWidthConstraint: NSLayoutConstraint?
     
@@ -104,6 +123,18 @@ class RoomControlViewController: BaseViewController {
                 return
             }
             
+            print("count", room.members.count)
+            if room.members.count != 0 && self.roomContainsMembers == false {
+                print("in here boi")
+                self.roomContainsMembers = true
+                self.leftSideContentWidthConstraint?.constant = -(self.view.frame.width * 0.18)
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.customIndicatorView.alpha = 1
+                    self.leftSideContentView.layoutIfNeeded()
+                    self.view.layoutIfNeeded()
+                })
+            }
             self.sideTableView.configureWithModel(room.members)
             
             self.questions = room.questions
@@ -122,6 +153,12 @@ class RoomControlViewController: BaseViewController {
                 
             case RoomState.closed.text:
                 self.roomState = .closed
+                self.roomStateLabel.text = "Room Closed"
+                
+                UIView.animate(withDuration: 0.25, animations: {
+                    self.startButton.alpha = 0
+                    self.closedStackView.alpha = 1
+                })
                 
                 print("it is closed")
             default:
@@ -147,7 +184,7 @@ class RoomControlViewController: BaseViewController {
         navigationItem.leftBarButtonItem = backButton
         
         bottomHeightConstraint = bottomView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2)
-        leftSideContentWidthConstraint = leftSideContentView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.82)
+        leftSideContentWidthConstraint = leftSideContentView.widthAnchor.constraint(equalTo: view.widthAnchor)
         
         leadingSideConstraint = rightSideContentView.leadingAnchor.constraint(equalTo: customIndicatorView.trailingAnchor)
         trailingSideConstraint = rightSideContentView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
@@ -181,6 +218,13 @@ class RoomControlViewController: BaseViewController {
             bottomHeightConstraint
             ]}
         
+        bottomView.add(subview: closedStackView) { (v, p) in [
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.6),
+            v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.2)
+            ]}
+        
         bottomView.add(subview: startButton) { (v, p) in [
             v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
             v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
@@ -200,14 +244,14 @@ class RoomControlViewController: BaseViewController {
             v.widthAnchor.constraint(equalToConstant: 3),
             v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.15)
             ]}
-        
+
         view.add(subview: rightSideContentView) { (v, p) in [
             v.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 15),
             v.bottomAnchor.constraint(equalTo: bottomView.topAnchor),
             leadingSideConstraint,
             trailingSideConstraint
             ]}
-        
+
         rightSideContentView.fillToSuperview(sideTableView)
         leftSideContentView.fillToSuperview(tableView)
     }
@@ -281,6 +325,17 @@ extension RoomControlViewController: UITableViewDelegate, UITableViewDataSource 
 extension RoomControlViewController: RoomControlSideTableViewDelegate {
     func didSelect(_ tableView: UITableView, at indexPath: IndexPath, in view: RoomControlSideTableView) {
         isSelected = !isSelected
+        
+        if isSelected {
+            self.leftSideContentWidthConstraint?.constant = -(self.view.frame.width * 0.82)
+        }
+        else {
+            self.leftSideContentWidthConstraint?.constant = -(self.view.frame.width * 0.18)
+        }
+        
+        UIView.animate(withDuration: 0.25, animations: {
+            self.view.layoutIfNeeded()
+        })
         
         view.setSelection(isSelected)
     }

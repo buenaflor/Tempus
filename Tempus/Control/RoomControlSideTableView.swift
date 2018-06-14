@@ -39,6 +39,7 @@ class RoomControlSideTableView: UIView, UITableViewDelegate, UITableViewDataSour
     
     func setSelection(_ value: Bool) {
         isSelected = value
+        tableView.reloadData()
     }
     
     override init(frame: CGRect) {
@@ -88,7 +89,11 @@ class MembersCell: BaseTableViewCell, Configurable {
         return iv
     }()
     
-    let nameLabel = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
+    let nameLabel: Label = {
+        let lbl = Label(font: .TempRegular, textAlignment: .left, textColor: .white, numberOfLines: 1)
+        lbl.alpha = 0
+        return lbl
+    }()
     
     var model: String?
     
@@ -132,6 +137,15 @@ class MembersCell: BaseTableViewCell, Configurable {
                 v.leadingAnchor.constraint(equalTo: profileImageView.trailingAnchor, constant: 5),
                 v.centerYAnchor.constraint(equalTo: p.centerYAnchor)
                 ]}
+            
+            UIView.animate(withDuration: 0.25) {
+                self.nameLabel.alpha = 1
+            }
+        }
+        else {
+            UIView.animate(withDuration: 0.25) {
+                self.nameLabel.alpha = 0
+            }
         }
         
         layoutIfNeeded()
