@@ -36,6 +36,32 @@ struct Room {
     }
 }
 
+struct User {
+    let firebaseInstanceId: String
+    let name: String
+    let photoUrl: String
+    
+    var dictionary: [String: Any] {
+        return [
+            FirebaseConstant.USERS_KEY_FIREBASE_ID: firebaseInstanceId,
+            FirebaseConstant.USERS_KEY_NAME: name,
+            FirebaseConstant.USERS_KEY_PHOTO: photoUrl
+        ]
+    }
+}
+
+extension User: DocumentSerializable {
+    init?(dictionary: [String : Any]) {
+        guard
+            let name = dictionary[FirebaseConstant.USERS_KEY_NAME] as? String,
+            let photoUrl = dictionary[FirebaseConstant.USERS_KEY_PHOTO] as? String,
+            let firebaseInstanceId = dictionary[FirebaseConstant.USERS_KEY_FIREBASE_ID] as? String
+            else { return nil }
+        
+        self.init(firebaseInstanceId: firebaseInstanceId, name: name, photoUrl: photoUrl)
+    }
+}
+
 extension Room: DocumentSerializable {
     
     init?(dictionary: [String : Any]) {

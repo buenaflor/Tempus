@@ -78,6 +78,17 @@ class FirebaseManager {
         }
     }
     
+    func addUser(_ user: User, _ userID: String, completion: @escaping (Error?) -> Void) {
+        db.collection(FirebaseConstant.STORE_USERS).document(userID).setData(user.dictionary) { (err) in
+            if let err = err {
+                completion(err)
+            }
+            else {
+                completion(nil)
+            }
+        }
+    }
+    
     // MARK: - Listen
     
     func addRoomListener(code: String, completion: @escaping (Error?, Room?, Votes?) -> Void) {

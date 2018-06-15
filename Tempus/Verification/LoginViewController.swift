@@ -8,7 +8,7 @@
 
 import UIKit
 
-import FirebaseAuth
+import Firebase
 
 class BaseFormViewController: BaseViewController, UITextFieldDelegate {
     let topContainerView = UIView()
@@ -112,10 +112,43 @@ class LoginViewController: BaseFormViewController {
         return view
     }()
     
-    lazy var successCheckmark: UIImageView = {
+    let successCheckmark: UIImageView = {
         let iv = UIImageView()
         iv.alpha = 0
         return iv
+    }()
+    
+    let bottomProfilePic: UIImageView = {
+        let iv = UIImageView()
+        iv.isUserInteractionEnabled = true
+        iv.alpha = 0
+        iv.image = #imageLiteral(resourceName: "profilepic")
+        return iv
+    }()
+    
+    lazy var sendButton: TempusButton = {
+        let btn = TempusButton(title: "Send", titleColor: .white, backgroundColor: UIColor.Temp.accent, font: .TempSemiBold)
+        btn.alpha = 0
+        btn.addTarget(self, action: #selector(sendButtonTapped(sender:)), for: .touchUpInside)
+        btn.layer.cornerRadius = 0
+        return btn
+    }()
+    
+    let profilePicLabel: Label = {
+        let lbl = Label(font: .TempRegular, textAlignment: .center, textColor: .lightGray, numberOfLines: 1)
+        lbl.text = "Choose Profile Picture"
+        lbl.alpha = 0
+        return lbl
+    }()
+    
+    lazy var nameTextField: InputTextField = {
+        let tf = InputTextField(placeHolder: "Name")
+        tf.delegate = self
+        tf.backgroundColor = .clear
+        tf.alpha = 0
+        tf.addSeparatorLine(color: .lightGray)
+        tf.layer.borderWidth = 0
+        return tf
     }()
     
     private var isSignUpForm = false
@@ -129,6 +162,9 @@ class LoginViewController: BaseFormViewController {
         
         let dismissTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardOnTap))
         view.addGestureRecognizer(dismissTap)
+        
+        let profilePicTap = UITapGestureRecognizer(target: self, action: #selector(profilePicTapped))
+        bottomProfilePic.addGestureRecognizer(profilePicTap)
         
         forgotPasswordButton.addTarget(self, action: #selector(forgotPasswordButtonTapped), for: .touchUpInside)
         registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
@@ -274,6 +310,31 @@ class LoginViewController: BaseFormViewController {
             v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.32),
             v.widthAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.32)
             ]}
+        
+        animatedBottomView.add(subview: bottomProfilePic) { (v, p) in [
+            v.topAnchor.constraint(equalTo: p.topAnchor, constant: 30),
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.heightAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.3),
+            v.widthAnchor.constraint(equalTo: p.heightAnchor, multiplier: 0.3)
+            ]}
+
+        animatedBottomView.add(subview: profilePicLabel) { (v, p) in [
+            v.centerXAnchor.constraint(equalTo: bottomProfilePic.centerXAnchor),
+            v.topAnchor.constraint(equalTo: bottomProfilePic.bottomAnchor, constant: 10)
+            ]}
+
+        animatedBottomView.add(subview: sendButton) { (v, p) in [
+            v.bottomAnchor.constraint(equalTo: p.bottomAnchor, constant: -20),
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.6)
+            ]}
+
+        animatedBottomView.add(subview: nameTextField) { (v, p) in [
+            v.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height * 0.075),
+            v.bottomAnchor.constraint(equalTo: sendButton.topAnchor, constant: -25),
+            v.leadingAnchor.constraint(equalTo: p.leadingAnchor, constant: 40),
+            v.trailingAnchor.constraint(equalTo: p.trailingAnchor, constant: -40)
+            ]}
     }
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
@@ -290,6 +351,36 @@ class LoginViewController: BaseFormViewController {
         passwordTextField.resignFirstResponder()
     }
     
+    @objc func sendButtonTapped(sender: UIButton) {
+        
+        guard
+            let name = nameTextField.text,
+            let email = emailTextField.text,
+            let password = passwordTextField.text,
+            let image = bottomProfilePic.image,
+            let token = InstanceID.instanceID().token()
+        else { return }
+        
+        
+        let user = User(firebaseInstanceId: token, name: name, photoUrl: "")
+        
+        Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
+            guard let result = result else {
+                self.alert(error: err!)
+                return
+            }
+            FirebaseManager.shared.addUser(user, result.user.uid, completion: { (err) in
+                if let err = err {
+                    self.alert(error: err)
+                    self.animateBottomView(false)
+                }
+                else {
+                    
+                }
+            })
+        }
+    }
+    
     @objc func guestButtonTapped() {
         let guestVC = GuestViewController()
         navigationController?.pushViewController(guestVC, animated: true)
@@ -297,7 +388,7 @@ class LoginViewController: BaseFormViewController {
     
     @objc func registerButtonTapped() {
         if !isSignUpForm {
-            loginButton.setTitle("Createvnew account", for: .normal)
+            loginButton.setTitle("Create new account", for: .normal)
             registerButton.setTitle("Log In", for: .normal)
         }
         else {
@@ -336,15 +427,6 @@ class LoginViewController: BaseFormViewController {
             }
         }
         else {
-            self.successCheckmark.setImage(#imageLiteral(resourceName: "checkmark"), with: .alwaysTemplate, tintColor: .green)
-            self.animateBottomView(true)
-            
-            DispatchQueue.global(qos: .background).async {
-                sleep(2)
-                DispatchQueue.main.async {
-                    self.animateBottomView(false)
-                }
-            }
             if !isSignUpForm {
                 Auth.auth().signIn(withEmail: username, password: password) { (user, err) in
                     if let err = err {
@@ -367,7 +449,28 @@ class LoginViewController: BaseFormViewController {
                     }
                 }
             }
-//            else {
+            else {
+                checkEmail(username) { (err, value) in
+                    if let err = err {
+                        self.alert(error: err)
+                    }
+                    else {
+                        guard let value = value else { return }
+                        if !value {
+                            self.animateBottomView(true)
+                            
+                            UIView.animate(withDuration: 0.25, animations: {
+                                self.profilePicLabel.alpha = 1
+                                self.bottomProfilePic.alpha = 1
+                                self.nameTextField.alpha = 1
+                                self.sendButton.alpha = 1
+                            })
+                        }
+                        else {
+                            self.alert(title: "Error", message: "Email already exists", cancelable: false, handler: nil)
+                        }
+                    }
+                }
 //                Auth.auth().createUser(withEmail: username, password: password) { (user, err) in
 //                    if let err = err {
 //                        self.alert(error: err)
@@ -376,7 +479,28 @@ class LoginViewController: BaseFormViewController {
 //
 //                    }
 //                }
-//            }
+            }
+        }
+    }
+    
+    @objc func profilePicTapped() {
+        
+    }
+    
+    // Bool refers to containing email: false -> email can be used
+    func checkEmail(_ email: String, completion: @escaping (Error?, Bool?) -> Void) {
+        Auth.auth().fetchProviders(forEmail: email) { (emails, err) in
+            if let err = err {
+                completion(err, nil)
+            }
+            else {
+                if emails == nil {
+                    completion(nil, false)
+                }
+                else {
+                    completion(nil, true)
+                }
+            }
         }
     }
 }
@@ -386,14 +510,31 @@ class LoginViewController: BaseFormViewController {
 
 extension LoginViewController {
     
+    func finishAnimation() {
+        
+    }
+    
     func animateBottomView(_ value: Bool, completion: ((Bool) -> Void)? = nil) {
         if value {
-            animatedBottomHeight?.constant = view.frame.height * 0.15
+            if !isSignUpForm {
+                animatedBottomHeight?.constant = view.frame.height * 0.15
+            }
+            else {
+                animatedBottomHeight?.constant = view.frame.height * 0.44
+            }
         }
         else {
             animatedBottomHeight?.constant = 0
         }
         
+        if !isSignUpForm {
+            UIView.animate(withDuration: 0.25) {
+                self.successCheckmark.alpha = value ? 1 : 0
+            }
+        }
+        else {
+            
+        }
         UIView.animate(withDuration: 0.25, animations: {
             self.successCheckmark.alpha = value ? 1 : 0
             self.view.layoutIfNeeded()

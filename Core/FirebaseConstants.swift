@@ -20,4 +20,9 @@ struct FirebaseConstant {
     
     static let STORE_VOTES = "votes"
     static let VOTES_KEY_DATA = "data"
+    
+    static let STORE_USERS = "users"
+    static let USERS_KEY_NAME = "name"
+    static let USERS_KEY_PHOTO = "photoUrl"
+    static let USERS_KEY_FIREBASE_ID = "firebaseInstanceId"
 }
