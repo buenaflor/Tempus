@@ -46,6 +46,17 @@ class BaseFormViewController: BaseViewController, UITextFieldDelegate {
         return btn
     }()
     
+
+    lazy var nameTextField: InputTextField = {
+        let tf = InputTextField(placeHolder: "Name")
+        tf.delegate = self
+        tf.backgroundColor = .clear
+        tf.alpha = 0
+        tf.addSeparatorLine(color: .lightGray)
+        tf.layer.borderWidth = 0
+        return tf
+    }()
+    
     lazy var bottomStackView: UIStackView = {
         let sv = UIStackView(arrangedSubviews: [forgotPasswordButton, registerButton])
         sv.distribution = .equalSpacing
@@ -66,7 +77,12 @@ class BaseFormViewController: BaseViewController, UITextFieldDelegate {
             textField.resignFirstResponder()
             return true
         }
-        passwordTextField.becomeFirstResponder()
+        if textField == nameTextField {
+            view.endEditing(true)
+        }
+        else {
+            passwordTextField.becomeFirstResponder()
+        }
         return true
     }
     
@@ -141,17 +157,9 @@ class LoginViewController: BaseFormViewController {
         return lbl
     }()
     
-    lazy var nameTextField: InputTextField = {
-        let tf = InputTextField(placeHolder: "Name")
-        tf.delegate = self
-        tf.backgroundColor = .clear
-        tf.alpha = 0
-        tf.addSeparatorLine(color: .lightGray)
-        tf.layer.borderWidth = 0
-        return tf
-    }()
-    
     private var isSignUpForm = false
+    
+    private var isSignUpShown = false
     
     private var animatedBottomHeight: NSLayoutConstraint?
     
@@ -326,7 +334,8 @@ class LoginViewController: BaseFormViewController {
         animatedBottomView.add(subview: sendButton) { (v, p) in [
             v.bottomAnchor.constraint(equalTo: p.bottomAnchor, constant: -20),
             v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
-            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.6)
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.6),
+            v.heightAnchor.constraint(equalToConstant: 55)
             ]}
 
         animatedBottomView.add(subview: nameTextField) { (v, p) in [
@@ -337,18 +346,24 @@ class LoginViewController: BaseFormViewController {
             ]}
     }
     
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        // Customize Color
-        //        textField.layer.borderColor = UIColor.white.cgColor
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        //        textField.layer.borderColor = UIColor.gray.cgColor
-    }
-    
     @objc func dismissKeyboardOnTap() {
         emailTextField.resignFirstResponder()
         passwordTextField.resignFirstResponder()
+    }
+
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.frame = CGRect(x:self.view.frame.origin.x, y:self.view.frame.origin.y - 170, width:self.view.frame.size.width, height:self.view.frame.size.height);
+
+        })
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.view.frame = CGRect(x:self.view.frame.origin.x, y:self.view.frame.origin.y + 170, width:self.view.frame.size.width, height:self.view.frame.size.height);
+
+        })
     }
     
     @objc func sendButtonTapped(sender: UIButton) {
@@ -361,8 +376,25 @@ class LoginViewController: BaseFormViewController {
             let token = InstanceID.instanceID().token()
         else { return }
         
+        animatedBottomView.add(subview: customActivityIndicator) { (v, p) in [
+            v.centerXAnchor.constraint(equalTo: p.centerXAnchor),
+            v.centerYAnchor.constraint(equalTo: p.centerYAnchor),
+            v.widthAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1),
+            v.heightAnchor.constraint(equalTo: p.widthAnchor, multiplier: 0.1)
+            ]}
         
-        let user = User(firebaseInstanceId: token, name: name, photoUrl: "")
+        animatedBottomHeight?.constant = view.frame.height * 0.15
+        
+        UIView.animate(withDuration: 0.25) {
+            self.bottomProfilePic.alpha = 0
+            self.nameTextField.alpha = 0
+            self.profilePicLabel.alpha = 0
+            self.sendButton.alpha = 0
+            self.view.layoutIfNeeded()
+        }
+        
+        
+        let user = User(firebaseInstanceId: token, name: name, photoUrl: "https://media.licdn.com/dms/image/C5603AQEU-5gmRWADRw/profile-displayphoto-shrink_200_200/0?e=1534982400&v=beta&t=t08xr-QOWVTRCVkkHBdNV3RZPUAIs5hl57wEaFJ3f9g")
         
         Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
             guard let result = result else {
@@ -372,10 +404,37 @@ class LoginViewController: BaseFormViewController {
             FirebaseManager.shared.addUser(user, result.user.uid, completion: { (err) in
                 if let err = err {
                     self.alert(error: err)
-                    self.animateBottomView(false)
+                    self.customActivityIndicator.stopAnimating()
+                    self.successCheckmark.image = #imageLiteral(resourceName: "crossmark").withRenderingMode(.alwaysTemplate)
+                    self.successCheckmark.tintColor = .red
+                    
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.successCheckmark.alpha = 1
+                    })
                 }
                 else {
+                    self.customActivityIndicator.stopAnimating()
+                    self.successCheckmark.image = #imageLiteral(resourceName: "checkmark").withRenderingMode(.alwaysTemplate)
+                    self.successCheckmark.tintColor = .green
                     
+                    UIView.animate(withDuration: 0.25, animations: {
+                        self.successCheckmark.alpha = 1
+                    })
+                }
+                
+                DispatchQueue.global(qos: .background).async {
+                    sleep(2)
+                    DispatchQueue.main.async{
+                        self.animatedBottomHeight?.constant = 0
+                        
+                        UIView.animate(withDuration: 0.25, animations: {
+                            self.view.layoutIfNeeded()
+                        })
+                        
+                        if self.successCheckmark.tintColor == .green {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    }
                 }
             })
         }
@@ -440,10 +499,8 @@ class LoginViewController: BaseFormViewController {
                             sleep(2)
                             DispatchQueue.main.async {
                                 self.animateBottomView(false, completion: { (_) in
-                                    let homeVC = HomeViewController()
-                                    self.present(homeVC.wrapped(), animated: true, completion: nil)
+                                    self.dismiss(animated: true, completion: nil)
                                 })
-                                
                             }
                         }
                     }
@@ -458,7 +515,7 @@ class LoginViewController: BaseFormViewController {
                         guard let value = value else { return }
                         if !value {
                             self.animateBottomView(true)
-                            
+                            self.isSignUpShown = true
                             UIView.animate(withDuration: 0.25, animations: {
                                 self.profilePicLabel.alpha = 1
                                 self.bottomProfilePic.alpha = 1
@@ -471,19 +528,13 @@ class LoginViewController: BaseFormViewController {
                         }
                     }
                 }
-//                Auth.auth().createUser(withEmail: username, password: password) { (user, err) in
-//                    if let err = err {
-//                        self.alert(error: err)
-//                    }
-//                    else {
-//
-//                    }
-//                }
+
             }
         }
     }
     
     @objc func profilePicTapped() {
+        // ToDo: Send profile pic and name data and send it if it is valid and then reate user
         
     }
     
